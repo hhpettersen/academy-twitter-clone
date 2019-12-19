@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.handleText {
+  font-size: 0.7rem;
+}
+
+body {
+  background-color: grey;
+  text-align: center;
+}
+
+.tweetBox {
+  background-color: darkcyan;
+  border-radius: 10px;
+}

@@ -1,25 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
+import { HashRouter, Switch, Route} from 'react-router-dom';
 import './App.css';
+
+import Login from './components/Login';
+import Feed from './components/Feed';
+import Signup from './components/Signup';
+import Logout from './components/Logout';
+import Authenticate from './components/Authenticate';
+import MyPage from './components/MyPage';
+
+// Switch sørger for at Route kun matcher på ett treff. 
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HashRouter>
+      <Switch>
+        <Route path='/' exact component={Authenticate} />
+        <Route path='/home' component={Feed} />
+        <Route path='/login' component={Login} />
+        <Route path='/logout' component={Logout} />
+        <Route path='/signup' component={Signup} />
+        <Route path='/mypage' component={MyPage} />
+      </Switch>
+    </HashRouter>
   );
 }
 
