@@ -1,5 +1,15 @@
 require('dotenv').config();
 
+/* 
+postgres://qckiadogaetqwx:40998084dd86f57a73cedcee14329cb752e39940d2e3da33437f9e6e8811a220@ec2-174-129-24-148.compute-1.amazonaws.com:5432/d8dsenh16mari4
+
+user: qckiadogaetqwx
+password: 40998084dd86f57a73cedcee14329cb752e39940d2e3da33437f9e6e8811a220
+host: ec2-174-129-24-148.compute-1.amazonaws.com
+port: 5432
+database: d8dsenh16mari4
+
+*/
 const express = require('express');
 const bodyParser = require('body-parser');
 const {
