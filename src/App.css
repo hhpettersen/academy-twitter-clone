@@ -42,11 +42,10 @@
 }
 
 body {
-  background-color: grey;
   text-align: center;
 }
 
 .tweetBox {
-  background-color: darkcyan;
   border-radius: 10px;
+  width: auto;
 }

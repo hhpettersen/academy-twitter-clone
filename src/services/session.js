@@ -1,6 +1,7 @@
 const API_URL = '/api';
 
 export function createSession({ handle, password }) {
+    console.log("createSession", handle, password)
     return fetch(`${API_URL}/session`, {
         method: 'POST',
         headers: {

@@ -29,7 +29,7 @@ class Login extends React.Component {
         event.preventDefault();
         const { history } = this.props;
         const { handle, password } = this.state.loginForm; // plukker ut at hva som ligger i login-skjema når knappen trykkes på
-
+        console.log("handleLoginAttempt", handle, password)
         try {
             this.setState({ isLoggingIn: true, error: null });
 

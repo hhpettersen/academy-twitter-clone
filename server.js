@@ -1,44 +1,31 @@
 require('dotenv').config();
 
-/* 
-postgres://qckiadogaetqwx:40998084dd86f57a73cedcee14329cb752e39940d2e3da33437f9e6e8811a220@ec2-174-129-24-148.compute-1.amazonaws.com:5432/d8dsenh16mari4
-
-user: qckiadogaetqwx
-password: 40998084dd86f57a73cedcee14329cb752e39940d2e3da33437f9e6e8811a220
-host: ec2-174-129-24-148.compute-1.amazonaws.com
-port: 5432
-database: d8dsenh16mari4
-
-*/
 const express = require('express');
 const bodyParser = require('body-parser');
-const {
-  Pool
-} = require('pg');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-
-
-const {
-  authenticate
-} = require('./middleware');
-
 const app = express();
 const api = express();
-app.use(express.static('build'));
+const { authenticate } = require('./middleware');
+const { Pool } = require('pg');
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL
+});
+
+
+const secret = process.env.SECRET;
+
+//Defining middlewares: 
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(express.static('build'));
+app.use('/api', api)
 
-const port = process.env.PORT;
-const secret = process.env.SECRET;
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+// 
 
 function getTweets() {
   return pool.query(`
@@ -150,10 +137,7 @@ api.post('/session', async function (req, res) {
     handle,
     password
   } = req.body;
-  console.log({
-    handle,
-    password
-  })
+  console.log(handle, password)
   const user = await getUserByHandle(handle);
 
   if (!user) {
@@ -234,8 +218,9 @@ api.delete('/tweets/:handle', function (req, res) {
     });
 });
 
-app.use('/api', api);
+// PORTING
+const port = process.env.PORT;
 
 app.listen(port, () => {
-  console.log('Twitter Clone running on port 3333');
+  console.log(`Twitter Clone running on port ${port}`);
 });
