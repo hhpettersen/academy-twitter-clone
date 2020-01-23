@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTweets, getUserData } from '../services/tweets'
+import { getTweets, getUserData, getTweetsByUserId } from '../services/tweets'
 
 class MyProfile extends React.Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class MyProfile extends React.Component {
     }
 
     async populateTweets() {
-        const tweets = await getTweets();
+        const tweets = await getTweetsByUserId();
         this.setState({ tweets: tweets })
     }
 
@@ -34,7 +34,7 @@ class MyProfile extends React.Component {
         const { handle, name, tweets } = this.state;
 
         const tweetElements = tweets
-        .map(({ id, message, name, handle, created_at }) => {
+        .map(({ message }) => {
             const styles =  {
                border: '1px solid black',
                padding: 10,
@@ -46,7 +46,7 @@ class MyProfile extends React.Component {
             //  })
 
             return (
-                <div key={id} style={styles} className='tweetBox'>
+                <div style={styles} className='tweetBox'>
                     <p className='handleText'>{name} (@{handle})</p>
                     <p>{message}</p>
                 </div>

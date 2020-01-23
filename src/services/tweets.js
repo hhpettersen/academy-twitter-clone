@@ -24,7 +24,7 @@ export function getTweetsById(id) {
 
 export function addUser(user) {
     return fetch(`${API_URL}/signup`, {
-      method: 'POST',   
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -42,14 +42,14 @@ export function deleteTweetById(id) {
 }
 
 export async function getTweetsByUserId () {
-    const response = await fetch(`${API_URL}/myprofile`, {
+    const response = await fetch(`${API_URL}/userfeed`, {
         method: 'GET',
         headers : {
             'Content-type': 'application/json',
             'X-Auth-Token': localStorage.getItem('twitter_clone_token')
         }
     })
-    return response.json();
+    return await response.json();
 }
 
 export async function getUserData() {

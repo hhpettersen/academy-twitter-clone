@@ -15,6 +15,7 @@ const {
   createTweet,
   getUserByHandle,
   deleteTweetById,
+  getFeedById,
 } = require('./middlewares/middleware')
 
 
@@ -82,6 +83,12 @@ api.post('/tweets', authenticate, async function (req, res) {
   res.send(newTweet);
 });
 
+api.get('/userfeed', authenticate, async function (req, res) {
+  const { id } = req.user;
+  const tweets = await getFeedById(id);
+  res.send(tweets);
+})
+
 // api.get('/myprofile', authenticate, async function (req, res) {
 //   const { handle } = await req.user;
 //   console.log("server.js", handle);
@@ -90,7 +97,6 @@ api.post('/tweets', authenticate, async function (req, res) {
 
 api.get('/myprofile', authenticate, async function (req, res) {
   const userData = req.user;
-  console.log(userData)
   res.send(userData);
 })
 

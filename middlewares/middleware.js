@@ -53,6 +53,33 @@ getTweets = async () => {
       })
       .then((tweet) => tweet[0]);
   }
+  
+  // function getFeedById(id) {
+  //   return pool.query('SELECT tweets.message FROM tweets INNER JOIN users ON tweets.user_id = $1', [id])
+  //     .then(({
+  //       rows
+  //     }) => {
+  //       return rows.map((elem) => {
+  //         return {
+  //           message: elem.message,
+  //         };
+  //       });
+  //     })
+  //     .then((tweet) => tweet[0]);
+  // }
+
+  getFeedById = async (id) => {
+    const { rows } = await pool.query(`
+    SELECT
+    tweets.message
+  FROM
+    tweets
+  WHERE
+    tweets.user_id = $1
+    `, [id])
+
+    return rows;
+  }
 
 // getTweetsById = async (id) => {
 //   const { rows } = await pool.query(`
@@ -142,4 +169,5 @@ getTweets = async () => {
       createTweet,
       getUserByHandle,
       deleteTweetById,
+      getFeedById,
   }
