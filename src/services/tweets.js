@@ -40,3 +40,27 @@ export function deleteTweetById(id) {
       })
       .then((res) => res.json());
 }
+
+export async function getTweetsByUserId () {
+    const response = await fetch(`${API_URL}/myprofile`, {
+        method: 'GET',
+        headers : {
+            'Content-type': 'application/json',
+            'X-Auth-Token': localStorage.getItem('twitter_clone_token')
+        }
+    })
+    return response.json();
+}
+
+export async function getUserData() {
+    const response = await fetch(`${API_URL}/myprofile`, {
+        method: 'GET',
+        headers : {
+            'Content-type': 'application/json',
+            'X-Auth-Token': localStorage.getItem('twitter_clone_token')
+        }
+    })
+    return await response.json();
+}
+
+

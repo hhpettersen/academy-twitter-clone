@@ -55,7 +55,7 @@ class Feed extends React.Component {
 
     handleMyPage() {
         const { history } = this.props;
-        history.push('/mypage');
+        history.push('/myprofile');
     }
 
     handleDelete() {

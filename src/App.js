@@ -8,6 +8,7 @@ import Signup from './components/Signup';
 import Logout from './components/Logout';
 import Authenticate from './components/Authenticate';
 import MyPage from './components/MyPage';
+import MyProfile from './components/MyProfile';
 
 // Switch sørger for at Route kun matcher på ett treff. 
 
@@ -20,7 +21,7 @@ function App() {
         <Route path='/login' component={Login} />
         <Route path='/logout' component={Logout} />
         <Route path='/signup' component={Signup} />
-        <Route path='/mypage' component={MyPage} />
+        <Route path='/myprofile' component={MyProfile} />
       </Switch>
     </HashRouter>
   );
