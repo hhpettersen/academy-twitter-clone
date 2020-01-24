@@ -58,12 +58,6 @@ class Feed extends React.Component {
         history.push('/myprofile');
     }
 
-    handleDelete() {
-        const { id } = this.state;
-        console.log(id)
-        deleteTweetById(id);
-    }
-
     render() {
         const { 
             session : {
@@ -104,7 +98,6 @@ class Feed extends React.Component {
                  <div key={id} style={styles} className='tweetBox'>
                      <p className='handleText'>{name} (@{handle}) {date}</p>
                      <p>{message}</p>
-                     <button key={id} onClick={this.handleDelete.bind(this)}>Delete tweet</button>
                  </div>
              );
          })

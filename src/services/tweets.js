@@ -22,23 +22,16 @@ export function getTweetsById(id) {
     .then((res) => res.json());
 }
 
-export function addUser(user) {
-    return fetch(`${API_URL}/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    })
-    .then((res) => res.json());
-}
-
-export function deleteTweetById(id) {
-    return fetch(`${API_URL}/tweets`, {
+export async function deleteTweetById(data) {
+    const response = await fetch(`${API_URL}/delete`, {
         method: 'DELETE',
-        body: JSON.stringify(id)
+        headers : {
+            'Content-type': 'application/json',
+            'X-Auth-Token': localStorage.getItem('twitter_clone_token')
+        },
+        body: JSON.stringify({ data })
       })
-      .then((res) => res.json());
+      return await response.json();
 }
 
 export async function getTweetsByUserId () {
@@ -51,16 +44,3 @@ export async function getTweetsByUserId () {
     })
     return await response.json();
 }
-
-export async function getUserData() {
-    const response = await fetch(`${API_URL}/myprofile`, {
-        method: 'GET',
-        headers : {
-            'Content-type': 'application/json',
-            'X-Auth-Token': localStorage.getItem('twitter_clone_token')
-        }
-    })
-    return await response.json();
-}
-
-

@@ -1,5 +1,6 @@
 import React from 'react';
-import { addUser } from '../services/tweets';
+
+import { addUser } from '../services/users';
 
 class Signup extends React.Component {
     constructor(props) {

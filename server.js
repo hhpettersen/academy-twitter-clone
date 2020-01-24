@@ -8,15 +8,20 @@ const app = express();
 const api = express();
 const { authenticate } = require('./middlewares/authenticate');
 
+// Impored functions
 const {
   getTweets,
   getTweetsById,
-  createUser,
   createTweet,
-  getUserByHandle,
   deleteTweetById,
   getFeedById,
-} = require('./middlewares/middleware')
+} = require('./middlewares/tweets-middleware')
+const {
+  createUser,
+  getUserByHandle,
+  getUserById,
+  editUserProfile,
+} = require('./middlewares/user-middleware')
 
 
 const secret = process.env.SECRET;
@@ -83,21 +88,43 @@ api.post('/tweets', authenticate, async function (req, res) {
   res.send(newTweet);
 });
 
+api.delete('/delete', authenticate, async (req, res) => {
+  const { id } = req.user;
+  console.log("userid: ", id)
+  const { data } = req.body;
+  console.log(data.id)
+
+  await deleteTweetById(data.id)
+  res.send({id})
+})
+
 api.get('/userfeed', authenticate, async function (req, res) {
   const { id } = req.user;
   const tweets = await getFeedById(id);
   res.send(tweets);
 })
 
-// api.get('/myprofile', authenticate, async function (req, res) {
-//   const { handle } = await req.user;
-//   console.log("server.js", handle);
-//   res.send(handle);
-// })
 
 api.get('/myprofile', authenticate, async function (req, res) {
-  const userData = req.user;
+  const { id } = req.user;
+  const userData = await getUserById(id);
   res.send(userData);
+})
+
+api.put('/editprofile', authenticate, async function (req, res) {
+  const { id } = req.user;
+  const {
+    name,
+    handle
+  } = req.body;
+
+  const updateUser = await editUserProfile({
+    name,
+    handle,
+    id,
+  });
+
+  res.send(updateUser);
 })
 
 api.get('/tweets', async function (req, res) {
