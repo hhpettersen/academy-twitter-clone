@@ -2,8 +2,9 @@ import React from 'react';
 import jwtDecode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns'
+import { Button, Card, Container, Row } from 'react-bootstrap';
 
-import { getTweets, postTweet, deleteTweetById } from '../services/tweets';
+import { getTweets, postTweet } from '../services/tweets';
 
 class Feed extends React.Component {
     constructor(props) {
@@ -84,25 +85,25 @@ class Feed extends React.Component {
 
          const tweetElements = tweets
          .map(({ id, message, name, handle, created_at }) => {
-             const styles =  {
-                border: '1px solid black',
-                padding: 10,
-                margin: 10
-             };
 
              var date = formatDistance(new Date(created_at), new Date(), {
                 addSuffix: true
               })
 
              return (
-                 <div key={id} style={styles} className='tweetBox'>
-                     <p className='handleText'>{name} (@{handle}) {date}</p>
-                     <p>{message}</p>
-                 </div>
+                <Card bg="dark" text="white" style={{ margin: '0.3rem' }}>
+                    <Card.Header>{name} (@{handle}) {date}</Card.Header>
+                    <Card.Body>
+                        <Card.Text>
+                            {message}
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
              );
          })
 
         return (
+            <Container>
             <div>
                 <h1>Feed for {name} (@{handle})</h1>
                 <button onClick={this.handleMyPage.bind(this)}>My page</button>
@@ -118,6 +119,7 @@ class Feed extends React.Component {
                 </div>
                 <div>{tweetElements}</div>
             </div>
+            </Container>
         );
     }
 }

@@ -90,9 +90,7 @@ api.post('/tweets', authenticate, async function (req, res) {
 
 api.delete('/delete', authenticate, async (req, res) => {
   const { id } = req.user;
-  console.log("userid: ", id)
   const { data } = req.body;
-  console.log(data.id)
 
   await deleteTweetById(data.id)
   res.send({id})

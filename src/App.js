@@ -1,6 +1,8 @@
 import React from 'react';
 import { HashRouter, Switch, Route} from 'react-router-dom';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.scss';
 
 import Login from './components/Login';
 import Feed from './components/Feed';
