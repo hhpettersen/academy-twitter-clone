@@ -2,7 +2,7 @@ import React from 'react';
 import jwtDecode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns'
-import { Button, Card, Container, Row } from 'react-bootstrap';
+import { Button, Card, Container, Row, Form, Nav } from 'react-bootstrap';
 
 import { getTweets, postTweet } from '../services/tweets';
 
@@ -104,15 +104,28 @@ class Feed extends React.Component {
 
         return (
             <Container>
+                <Nav justify variant="tabs" defaultActiveKey="/home">
+                    <Nav.Item>
+                        <Nav.Link href="/home">Home</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link onClick={this.handleMyPage.bind(this)}>Profile</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link eventKey="link-2">About</Nav.Link>
+                    </Nav.Item>
+                </Nav>
             <div>
                 <h1>Feed for {name} (@{handle})</h1>
-                <button onClick={this.handleMyPage.bind(this)}>My page</button>
                 <div>
-                    <textarea
-                        value={message} 
+                    <Form.Group 
+                        controlId="exampleForm.ControlTextarea1"
+                        value="{message}"
                         onChange={this.handleInputChange.bind(this, 'message')}
-                    />
-                    <button onClick={this.handleSubmitTweet.bind(this)}>Tweet</button>
+                    >
+                        <Form.Control as="textarea" rows="3" placeholder="Compose your tweet here..."/>
+                    </Form.Group>
+                    <Button variant="dark" onClick={this.handleSubmitTweet.bind(this)}>Tweet</Button>
                 </div>
                 <div>
                     <Link to='/logout'>Log out</Link>
