@@ -23,7 +23,15 @@ getTweets = async () => {
 }
   
   function getTweetsById(id) {
-    return pool.query('SELECT tweets.message FROM tweets INNER JOIN users ON tweets.user_id = $1', [id])
+    return pool.query(`
+    SELECT 
+      tweets.message 
+    FROM 
+      tweets 
+    INNER JOIN 
+      users 
+    ON 
+      tweets.user_id = $1`, [id])
       .then(({
         rows
       }) => {
@@ -42,10 +50,12 @@ getTweets = async () => {
     tweets.message,
     created_at,
     id
-  FROM
-    tweets
-  WHERE
-    tweets.user_id = $1
+    FROM
+      tweets
+    WHERE
+      tweets.user_id = $1
+    ORDER BY 
+      tweets.created_at DESC
     `, [id])
 
     return rows;

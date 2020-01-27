@@ -22,6 +22,10 @@ const {
   getUserById,
   editUserProfile,
 } = require('./middlewares/user-middleware')
+const {
+  cryptPassword,
+  decryptPassword
+} = require('./middlewares/bcrypt')
 
 
 const secret = process.env.SECRET;

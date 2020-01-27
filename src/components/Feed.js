@@ -2,7 +2,7 @@ import React from 'react';
 import jwtDecode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns'
-import { Button, Card, Container, Row, Form, Nav } from 'react-bootstrap';
+import { Button, Card, Container, Row, Form, Nav, Col } from 'react-bootstrap';
 
 import { getTweets, postTweet } from '../services/tweets';
 
@@ -91,7 +91,7 @@ class Feed extends React.Component {
               })
 
              return (
-                <Card bg="dark" text="white" style={{ margin: '0.3rem' }}>
+                <Card style={{ marginTop: '0.3rem' }}>
                     <Card.Header>{name} (@{handle}) {date}</Card.Header>
                     <Card.Body>
                         <Card.Text>
@@ -104,6 +104,8 @@ class Feed extends React.Component {
 
         return (
             <Container>
+                <Row>
+                    <Col>
                 <Nav justify variant="tabs" defaultActiveKey="/home">
                     <Nav.Item>
                         <Nav.Link href="/home">Home</Nav.Link>
@@ -125,13 +127,12 @@ class Feed extends React.Component {
                     >
                         <Form.Control as="textarea" rows="3" placeholder="Compose your tweet here..."/>
                     </Form.Group>
-                    <Button variant="dark" onClick={this.handleSubmitTweet.bind(this)}>Tweet</Button>
-                </div>
-                <div>
-                    <Link to='/logout'>Log out</Link>
+                    <Button onClick={this.handleSubmitTweet.bind(this)}>Tweet</Button>
                 </div>
                 <div>{tweetElements}</div>
             </div>
+            </Col>
+            </Row>
             </Container>
         );
     }

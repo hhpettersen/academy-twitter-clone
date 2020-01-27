@@ -1,5 +1,6 @@
 import React from 'react';
 import avatar from '../images/avatars/male.png'
+import { Button, Card, Container, Row, Form, Nav, Col } from 'react-bootstrap';
 
 import { getUserData, updateUser } from '../services/users'
 
@@ -54,32 +55,47 @@ class EditProfile extends React.Component {
 
     render() {     
         return (
-            <div>
-                <button onClick={this.handleBackClick.bind(this)}>Back to profile</button>
-                <div>
-                    <h3>Edit profile</h3>
-                </div>
+            <Container>
+                <Row>
+                    <Col>
+                        <Nav justify variant="tabs" defaultActiveKey="/myprofile">
+                            <Nav.Item>
+                                <Nav.Link href="/home">Home</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link href="/myprofile">Profile</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="link-2">About</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+                        <Button style={{marginTop:"5px"}} onClick={this.handleBackClick.bind(this)}>Back to profile</Button>
+                        <div>
+                            <h3>Edit profile</h3>
+                        </div>
 
-                <div>
-                    <label className="inputField" id="iconName">
-                        <input 
-                            value={this.state.editForm.name}
-                            onChange={this.handleInputChange.bind(this, 'name')}
-                            type="text" 
-                         />
-                    </label>
-                    <label className="inputField" id="iconUsername">
-                        <input 
-                            value={this.state.editForm.handle}
-                            onChange={this.handleInputChange.bind(this, 'handle')}
-                            type="text" 
-                         />
-                         <div className="errorMessage">
-                            </div>
-                    </label>
-                    <button onClick={this.handleSubmitAttempt.bind(this)}>Submit changes</button>
-                </div>
-                </div>
+                        <Form>
+                            <Form.Group controlId="formGroupName">
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control 
+                                type="text" 
+                                placeholder={this.state.editForm.name}
+                                onChange={this.handleInputChange.bind(this, "name")}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formGroupHandle">
+                                <Form.Label>Handle</Form.Label>
+                                <Form.Control 
+                                type="text" 
+                                placeholder={this.state.editForm.handle}
+                                onChange={this.handleInputChange.bind(this, "handle")}
+                                />
+                            </Form.Group>
+                        </Form>
+                        <Button onClick={this.handleSubmitAttempt.bind(this)}>Submit changes</Button>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

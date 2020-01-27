@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 
 import { createSession } from '../services/session';
 
@@ -28,8 +29,7 @@ class Login extends React.Component {
     async handleLoginAttempt(event) {
         event.preventDefault();
         const { history } = this.props;
-        const { handle, password } = this.state.loginForm; // plukker ut at hva som ligger i login-skjema når knappen trykkes på
-        console.log("handleLoginAttempt", handle, password)
+        const { handle, password } = this.state.loginForm;
         try {
             this.setState({ isLoggingIn: true, error: null });
 
@@ -44,7 +44,7 @@ class Login extends React.Component {
             }
 
             localStorage.setItem('twitter_clone_token', token);
-            history.push('/'); //Redirecting to main-page
+            history.push('/');
 
         } catch (error) {
             this.setState({ error, isLoggingIn: false })
@@ -60,40 +60,35 @@ class Login extends React.Component {
         const { error, isLoggingIn } = this.state;
 
         return (
-            <div>
-                <h1>Login</h1>
-                
-                <form>
-                    <div>
-                        <label>
-                            Handle:
-                            <input 
-                                type="text"
-                                value={this.state.loginForm.handle}
-                                onChange={this.handleInputChange.bind(this, 'handle')}
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            Password:
-                            <input 
-                                type="password"
-                                value={this.state.loginForm.password}
-                                onChange={this.handleInputChange.bind(this, 'password')}
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <button onClick={this.handleLoginAttempt.bind(this)}>Login</button>
-                        <button onClick={this.handleSignup.bind(this)}>Sign up</button>
-                    </div>
-                    <div>
+            <Container>
+                <Row>
+                    <Col>
+                        <h1>Login</h1>
+                        <Form>
+                            <Form.Group controlId="formGroupHandle">
+                                <Form.Label>Handle</Form.Label>
+                                <Form.Control 
+                                type="text" 
+                                onChange={this.handleInputChange.bind(this, "handle")}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formGroupPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control 
+                                type="password" 
+                                onChange={this.handleInputChange.bind(this, "password")}
+                                />
+                            </Form.Group>
+                            <div>
                         {isLoggingIn && <p>Logging in...</p>}
                         {error && <p>Unable to log in: {error.message}</p>}
                     </div>
-                </form>
-            </div>
+                        </Form>
+                        <Button style={{marginRight:"5px"}} onClick={this.handleLoginAttempt.bind(this)}>Log in</Button>
+                        <Button onClick={this.handleSignup.bind(this)}>Sign up</Button>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }   
