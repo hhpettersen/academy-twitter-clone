@@ -1,11 +1,18 @@
 import React from 'react';
-import avatar from '../images/avatars/male.png'
 import { formatDistance } from 'date-fns'
-import { Button, Card, Container, Row, Form, Nav, Col, Image } from 'react-bootstrap';
+import { Button, Card, Container, Row, Nav, Col, Image, Accordion } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getTweets, getTweetsByUserId, deleteTweetById } from '../services/tweets'
-import { getUserData } from '../services/users'
+// Avatars
+import avatarOne from '../images/avatars/1.jpg'
+import avatarTwo from '../images/avatars/2.jpg'
+import avatarThree from '../images/avatars/3.gif'
+import avatarFour from '../images/avatars/4.jfif'
+import avatarFive from '../images/avatars/5.png'
+import avatarSix from '../images/avatars/6.png'
+
+import { getTweetsByUserId, deleteTweetById } from '../services/tweets'
+import { getUserData, updateImage } from '../services/users'
 
 class MyProfile extends React.Component {
     constructor(props) {
@@ -14,7 +21,11 @@ class MyProfile extends React.Component {
         this.state = {
             handle: '',
             name: '',
+            avatar: '',
+            image: null,
+            imageError: null,
             tweets: [],
+            avatarArray: [avatarOne, avatarTwo, avatarThree, avatarFour, avatarFive, avatarSix],
         }
     }
 
@@ -32,7 +43,8 @@ class MyProfile extends React.Component {
             const userData = await getUserData();
             this.setState({ 
                 handle: userData.handle,
-                name: userData.name
+                name: userData.name,
+                avatar: userData.image,
              })
     }
 
@@ -51,8 +63,23 @@ class MyProfile extends React.Component {
         this.componentDidMount();
     }
 
+    imageClick = async (id) => {
+        this.setState({ image: id })
+        const { image } = await this.state;
+        console.log(image)
+        await updateImage({image})
+        this.componentDidMount();
+    }
+
     render() {
-        const { handle, name, tweets } = this.state;
+        const { handle, name, tweets, avatarArray, changeClick } = this.state;
+
+        const avatarElements = avatarArray
+        .map((avatar, index) => {
+            return (
+                <Image src={avatar} onClick={this.imageClick.bind(this, (index))}/>
+            )
+        })
 
         const tweetElements = tweets
         .map(({ id, message, created_at }) => {
@@ -62,7 +89,7 @@ class MyProfile extends React.Component {
              })
 
             return (
-                <Card style={{ margin: '0.3rem' }}>
+                <Card key={id} style={{ margin: '0.3rem' }}>
                     <Card.Header>{name} (@{handle}) {date}</Card.Header>
                     <Card.Body>
                         <Card.Text>
@@ -90,9 +117,24 @@ class MyProfile extends React.Component {
                         </Nav.Item>
                     </Nav>
 
-                    <Image src={avatar} roundedCircle className="rounded mx-auto d-block" style={{border: "1px solid black"}}/>
+                    <Image src={avatarArray[this.state.avatar]} roundedCircle className="rounded mx-auto d-block" style={{ height:"100px" }}/>
+                    
+                    <Accordion className="text-center">
+                        <Card>
+                            <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                <Button>Change Avatar</Button>
+                            </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="0">
+                            <Card.Body className="avatars">
+                                {avatarElements}
+                            </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>
+
                     <Card className="text-center" style={{ width: 'auto', marginTop: "10px"}}>
-                        {/* <Card.Img variant="top" src={avatar} style={{border: "1px solid grey", borderRadius:"50%", height:"250px", width:"250px"}}/> */}
                         <Card.Body>
                             <Card.Title>{name} (@{handle})</Card.Title>
                             <Card.Text>

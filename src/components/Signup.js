@@ -12,15 +12,29 @@ class Signup extends React.Component {
                 name: '',
                 handle: '',
                 password: '',
-            }
+                passwordTwo: '',
+            },
+            passwordError: null,
+            handleError: null,
         }
     }
 
     async handleSubmit(event) {
         event.preventDefault();
-        await addUser(this.state.users)
-        const { history } = this.props;
-        history.push('/');
+        const { name, handle, password, passwordTwo } = this.state.users;
+
+        if (password !== passwordTwo) {
+            this.setState({ passwordError: "Passwords does not match, please try again."})
+        } else {
+            this.setState({ passwordError: null})
+            const newUser = await addUser(this.state.users)
+            if (newUser.status === 403) {
+                this.setState({ handleError: newUser.message})
+            } else {
+                const { history } = this.props;
+                history.push('/');
+            }
+        }
     }
 
     handleInputChange(field, event) {
@@ -38,6 +52,7 @@ class Signup extends React.Component {
     }
 
     render() {
+        const { passwordError, handleError } = this.state;
         return (
             <Container>
                 <Row>
@@ -59,6 +74,7 @@ class Signup extends React.Component {
                                 onChange={this.handleInputChange.bind(this, "handle")}
                                 />
                             </Form.Group>
+                            {handleError && <p>{handleError}</p>}
                             <Form.Group controlId="formGroupPassword">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control 
@@ -66,49 +82,19 @@ class Signup extends React.Component {
                                 onChange={this.handleInputChange.bind(this, "password")}
                                 />
                             </Form.Group>
-                            {/* <Form.Group controlId="formGroupPassword">
+                            <Form.Group controlId="formGroupPasswordTwo">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control 
                                 type="password" 
-                                onChange={this.handleInputChange.bind(this, "password")}
+                                onChange={this.handleInputChange.bind(this, "passwordTwo")}
                                 />
-                            </Form.Group> */}
+                            </Form.Group>
+                                {passwordError && <p>{passwordError}</p>}
                         </Form>
                         <Button onClick={this.handleSubmit.bind(this)}>Sumbit</Button>
                     </Col>
                 </Row>
             </Container>
-
-            // <form onSubmit={this.handleSubmit.bind(this)}>
-            //     <label htmlFor="name">
-            //         Name
-            //         <input 
-            //             type="text" 
-            //             name="name" 
-            //             value={this.state.users.name} 
-            //             onChange={this.handleInputChange.bind(this, 'name')} 
-            //         />
-            //     </label>
-            //     <label htmlFor="handle">
-            //         Handle
-            //         <input 
-            //             type="text" 
-            //             name="handle"  
-            //             value={this.state.users.handle} 
-            //             onChange={this.handleInputChange.bind(this, 'handle')} 
-            //         />
-            //     </label> 
-            //     <label htmlFor="password">
-            //         Password
-            //         <input 
-            //             type="text" 
-            //             name="password"  
-            //             value={this.state.users.password} 
-            //             onChange={this.handleInputChange.bind(this, 'password')}
-            //         />
-            //     </label>
-            //     <button>Create user</button>
-            // </form>
         )   
     }
 }

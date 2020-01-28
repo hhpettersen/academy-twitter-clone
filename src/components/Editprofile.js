@@ -2,6 +2,14 @@ import React from 'react';
 import avatar from '../images/avatars/male.png'
 import { Button, Card, Container, Row, Form, Nav, Col, Image } from 'react-bootstrap';
 
+// Avatars
+import avatarOne from '../images/avatars/1.jpg'
+import avatarTwo from '../images/avatars/2.jpg'
+import avatarThree from '../images/avatars/3.gif'
+import avatarFour from '../images/avatars/4.jfif'
+import avatarFive from '../images/avatars/5.png'
+import avatarSix from '../images/avatars/6.png'
+
 import { getUserData, updateUser } from '../services/users'
 
 class EditProfile extends React.Component {
@@ -95,37 +103,6 @@ class EditProfile extends React.Component {
                                 onChange={this.handleInputChange.bind(this, "handle")}
                                 />
                             </Form.Group>
-                            <fieldset>
-                                <Form.Group as={Row} onChange={this.logRadio.bind(this)}>
-                                    <Form.Label as="legend" column sm={2}>
-                                        Avatar
-                                    </Form.Label>
-                                    <Col sm={10}>
-                                        <Form.Check
-                                        type="radio"
-                                        label="first radio"
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios1"
-                                        value="1"
-                                        />
-                                        <Form.Check
-                                        type="radio"
-                                        label="second radio"
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios2"
-                                        value="2"
-                                        />
-                                        <Image src={avatar} />
-                                        <Form.Check
-                                        type="radio"
-                                        label="third radio"
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios3"
-                                        value="3"
-                                        />
-                                    </Col>
-                                </Form.Group>
-                            </fieldset>
                         </Form>
                         <Button onClick={this.handleSubmitAttempt.bind(this)}>Submit changes</Button>
                     </Col>

@@ -57,6 +57,19 @@ editUserProfile = async (userData) => {
   return rows[0]
 }
 
+editUserImage = async (userData) => {
+  const { rows } = await pool.query(
+    `
+    UPDATE users SET
+      image = $1
+    WHERE
+      id = $2
+    RETURNING * 
+    `, [userData.image, userData.id]);
+  
+  return rows[0]
+}
+
 // getting all user-data by id
 getUserById = async (id) => {
   const { rows } = await pool.query(`
@@ -84,9 +97,24 @@ function getUserByHandle(handle) {
     return pool.query('DELETE FROM tweets WHERE id = $1', [id])
   }
 
+  validateHandle = async (handle) => {
+    const { rows } = await pool.query(`
+      SELECT
+        COUNT(handle)
+      FROM
+        users
+      WHERE
+        handle = $1
+    `, [handle])
+
+    return rows[0]
+  }
+
   module.exports = {
       createUser,
       getUserByHandle,
       editUserProfile,
-      getUserById
+      getUserById,
+      validateHandle,
+      editUserImage,
   }

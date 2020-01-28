@@ -21,6 +21,8 @@ const {
   getUserByHandle,
   getUserById,
   editUserProfile,
+  validateHandle,
+  editUserImage,
 } = require('./middlewares/user-middleware')
 const {
   cryptPassword,
@@ -131,6 +133,20 @@ api.put('/editprofile', authenticate, async function (req, res) {
   res.send(updateUser);
 })
 
+api.put('/editimage', authenticate, async function (req, res) {
+  const { id } = req.user;
+  const {
+    image
+  } = req.body;
+
+  const updateImage = await editUserImage({
+    image,
+    id
+  });
+
+  res.send(updateImage);
+})
+
 api.get('/tweets', async function (req, res) {
   const tweets = await getTweets();
   res.send(tweets);
@@ -152,15 +168,20 @@ api.post('/signup', async function (req, res) {
     password,
   } = req.body;
 
+  const handleCount = await validateHandle(handle);
   const hashPassword = await cryptPassword(password);
-  console.log(hashPassword)
+  console.log(handleCount.count)
 
-  const newUser = await createUser({
-    name,
-    handle,
-    hashPassword,
-  })
-  res.send(newUser);
+  if (+handleCount.count) {
+    return res.status(403).json({ status: 403, message: 'Handle already in use, please try again.'})
+  } else {
+    const newUser = await createUser({
+      name,
+      handle,
+      hashPassword,
+    })
+    res.send(newUser);
+  }
 });
 
 

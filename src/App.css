@@ -49,3 +49,10 @@ body {
   border-radius: 10px;
   width: auto;
 }
+
+.avatars img {
+  height: 100px;
+  margin: 10px;
+  border-radius: 50%;
+}
+

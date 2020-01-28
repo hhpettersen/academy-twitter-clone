@@ -34,3 +34,15 @@ export async function updateUser({ name, handle }) {
     return response.json();
 }
 
+export async function updateImage({ image }) {
+  const response = await fetch(`${API_URL}/editimage`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': localStorage.getItem('twitter_clone_token')
+    },
+    body: JSON.stringify({ image })
+  })
+  return response.json();
+}
+

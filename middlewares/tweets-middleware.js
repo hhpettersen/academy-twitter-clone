@@ -11,7 +11,8 @@ getTweets = async () => {
     tweets.message,
     tweets.created_at,
     users.name,
-    users.handle
+    users.handle,
+    users.image
   FROM
     tweets
   INNER JOIN users ON
