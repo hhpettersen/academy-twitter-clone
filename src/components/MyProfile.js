@@ -100,7 +100,7 @@ class MyProfile extends React.Component {
                             the card's content.
                             </Card.Text>
                             <Button variant="primary" onClick={this.handleEditClick.bind(this)} style={{margin: "5px"}}>Edit profile</Button>
-                            <Button variant="primary" style={{margin: "5px"}}><Link to="/login" style={{color: "white", textDecoration: "none"}}>Log out</Link></Button>
+                            <Button variant="primary" style={{margin: "5px"}}><Link to="/logout" style={{color: "white", textDecoration: "none"}}>Log out</Link></Button>
                         </Card.Body>
                     </Card>
                     

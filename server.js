@@ -54,8 +54,10 @@ api.post('/session', async function (req, res) {
     handle,
     password
   } = req.body;
-  console.log(handle, password)
+
   const user = await getUserByHandle(handle);
+
+  const match = await decryptPassword(password, user.password);
 
   if (!user) {
     return res.status(401).send({
@@ -63,7 +65,7 @@ api.post('/session', async function (req, res) {
     });
   }
 
-  if (user.password !== password) {
+  if (!match) {
     return res.status(401).send({
       error: 'Wrong password'
     });
@@ -150,10 +152,13 @@ api.post('/signup', async function (req, res) {
     password,
   } = req.body;
 
+  const hashPassword = await cryptPassword(password);
+  console.log(hashPassword)
+
   const newUser = await createUser({
     name,
     handle,
-    password,
+    hashPassword,
   })
   res.send(newUser);
 });

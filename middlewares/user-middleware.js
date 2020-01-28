@@ -23,7 +23,7 @@ const pool = new Pool({
     const queryValues = [
       users.name,
       users.handle,
-      users.password,
+      users.hashPassword,
     ]
   
     return pool.query(queryText, queryValues)
