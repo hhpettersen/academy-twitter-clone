@@ -66,7 +66,6 @@ class MyProfile extends React.Component {
     imageClick = async (id) => {
         this.setState({ image: id })
         const { image } = await this.state;
-        console.log(image)
         await updateImage({image})
         this.componentDidMount();
     }
