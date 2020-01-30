@@ -50,7 +50,7 @@ class MyProfile extends React.Component {
 
     handleBackClick () {
         const { history } = this.props;
-        history.push('/home')
+        history.push('/')
     }
 
     handleEditClick () {
@@ -106,7 +106,7 @@ class MyProfile extends React.Component {
                     <Col>
                     <Nav justify variant="tabs" defaultActiveKey="/myprofile">
                         <Nav.Item>
-                            <Nav.Link href="/home">Home</Nav.Link>
+                            <Nav.Link href="/">Home</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link href="/myprofile">Profile</Nav.Link>
