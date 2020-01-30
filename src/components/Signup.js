@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 
 import { addUser } from '../services/users';
+import { createSession } from '../services/session'
 
 class Signup extends React.Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class Signup extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+        const { history } = this.props;
         const { name, handle, password, passwordTwo } = this.state.users;
 
         if (password !== passwordTwo) {
@@ -31,8 +33,18 @@ class Signup extends React.Component {
             if (newUser.status === 403) {
                 this.setState({ handleError: newUser.message})
             } else {
-                const { history } = this.props;
-                history.push('/');
+                    const { token, error } = await createSession({ handle, password });
+        
+                    if (error) {
+                        throw new Error(error);
+                    }
+        
+                    if (!token) {
+                        throw new Error('No token received - try again');
+                    }
+        
+                    localStorage.setItem('twitter_clone_token', token);
+                    history.push('/');
             }
         }
     }
