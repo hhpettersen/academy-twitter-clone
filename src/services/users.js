@@ -22,14 +22,14 @@ export async function getUserData() {
     return await response.json();
 }
 
-export async function updateUser({ name, handle }) {
+export async function updateUser({ name, handle, about }) {
     const response = await fetch(`${API_URL}/editprofile`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'X-Auth-Token': localStorage.getItem('twitter_clone_token')
       },
-      body: JSON.stringify({ name, handle })
+      body: JSON.stringify({ name, handle, about })
     })
     return response.json();
 }
@@ -46,3 +46,6 @@ export async function updateImage({ image }) {
   return response.json();
 }
 
+export function getAvatarUrl(avatarId) {
+  return `/avatars/${avatarId}.jpg`;
+}

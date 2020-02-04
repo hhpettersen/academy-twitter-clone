@@ -23,6 +23,7 @@ const {
   editUserProfile,
   validateHandle,
   editUserImage,
+  addToFollowing,
 } = require('./middlewares/user-middleware')
 const {
   cryptPassword,
@@ -121,12 +122,14 @@ api.put('/editprofile', authenticate, async function (req, res) {
   const { id } = req.user;
   const {
     name,
-    handle
+    handle,
+    about
   } = req.body;
 
   const updateUser = await editUserProfile({
     name,
     handle,
+    about,
     id,
   });
 
@@ -152,15 +155,6 @@ api.get('/tweets', async function (req, res) {
   res.send(tweets);
 });
 
-// api.get('/tweets/:handle', async function (req, res) {
-//   const {
-//     id
-//   } = req.params;
-  
-//   const myTweets = await getTweetsById(id);
-//   res.send(myTweets);
-// });
-
 api.post('/signup', async function (req, res) {
   const {
     name,
@@ -183,8 +177,6 @@ api.post('/signup', async function (req, res) {
     res.send(newUser);
   }
 });
-
-
 
 // PORTING
 const port = process.env.PORT;

@@ -11,6 +11,7 @@ import Logout from './components/Logout';
 import Authenticate from './components/Authenticate';
 import MyProfile from './components/MyProfile';
 import EditProfile from './components/Editprofile';
+import NoMatch from './components/NoMatch';
 
 // Switch sørger for at Route kun matcher på ett treff. 
 
@@ -23,8 +24,9 @@ function App() {
         <Route path='/login' component={Login} />
         <Route path='/logout' component={Logout} />
         <Route path='/signup' component={Signup} />
-        <Route path='/myprofile' component={MyProfile} />
-        <Route path='/editprofile' component={EditProfile} />
+        <Route path='/myprofile/:handle' component={MyProfile} />
+        <Route path='/editprofile/:handle' component={EditProfile} />
+        <Route component={NoMatch}/>
       </Switch>
     </HashRouter>
   );

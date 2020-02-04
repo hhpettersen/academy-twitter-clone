@@ -48,14 +48,29 @@ editUserProfile = async (userData) => {
     `
     UPDATE users SET
         name = $1,
-        handle = $2
+        handle = $2,
+        about=$3
     WHERE
-      id = $3
+      id = $4
     RETURNING * 
-    `, [userData.name, userData.handle ,userData.id]);
+    `, [userData.name, userData.handle, userData.about, userData.id]);
   
   return rows[0]
 }
+
+addToFollowing = async (userData) => {
+  const { rows } = await pool.query(
+    `
+    UPDATE users SET
+     following = following || '{$1}' 
+    WHERE 
+      id = $2
+    RETURNING *
+    `, [userData.follow_id, userData.id])
+
+    return rows[0]
+}
+    
 
 editUserImage = async (userData) => {
   const { rows } = await pool.query(
@@ -117,4 +132,5 @@ function getUserByHandle(handle) {
       getUserById,
       validateHandle,
       editUserImage,
+      addToFollowing,
   }

@@ -10,6 +10,7 @@ getTweets = async () => {
     tweets.id,
     tweets.message,
     tweets.created_at,
+    tweets.user_id,
     users.name,
     users.handle,
     users.image

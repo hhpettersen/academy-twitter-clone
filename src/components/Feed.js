@@ -1,17 +1,13 @@
 import React from 'react';
 import jwtDecode from 'jwt-decode';
-import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns'
 import { Button, Card, Container, Row, Form, Nav, Col, Image } from 'react-bootstrap';
 
-import avatarOne from '../images/avatars/1.jpg'
-import avatarTwo from '../images/avatars/2.jpg'
-import avatarThree from '../images/avatars/3.gif'
-import avatarFour from '../images/avatars/4.jfif'
-import avatarFive from '../images/avatars/5.png'
-import avatarSix from '../images/avatars/6.png'
-
 import { getTweets, postTweet } from '../services/tweets';
+import { getAvatarUrl } from '../services/avatar';
+import { getUserData } from '../services/users'
+
+
 
 class Feed extends React.Component {
     constructor(props) {
@@ -27,7 +23,6 @@ class Feed extends React.Component {
             message: '',
             session: payload,
             id: '',
-            avatarArray: [avatarOne, avatarTwo, avatarThree, avatarFour, avatarFive, avatarSix],
         }
     }
 
@@ -43,6 +38,13 @@ class Feed extends React.Component {
         } catch (error) {
             this.setState({ error });
         }
+    }
+
+    async getUserData() {
+        const userData = await getUserData();
+        this.setState({ 
+            id: userData.id
+        })
     }
 
     handleInputChange(field, event) {
@@ -62,9 +64,9 @@ class Feed extends React.Component {
         await this.populateTweets();
     }
 
-    handleMyPage() {
+    handleMyPage(data) {
         const { history } = this.props;
-        history.push('/myprofile');
+        history.push(`/myprofile/${data.handle}`);
     }
 
     render() {
@@ -93,7 +95,7 @@ class Feed extends React.Component {
          }
 
          const tweetElements = tweets
-         .map(({ id, message, name, handle, image, created_at,  }) => {
+         .map(({ id, message, name, handle, user_id, image, created_at }) => {
 
              var date = formatDistance(new Date(created_at), new Date(), {
                 addSuffix: true
@@ -101,7 +103,11 @@ class Feed extends React.Component {
 
              return (
                 <Card key={id} style={{ marginTop: '0.3rem' }}>
-                    <Card.Header><Image src={avatarArray[image]} style={{height:"50px"}}/>{name} (@{handle}) {date} </Card.Header>
+                    <Card.Header>
+                        <Image src={getAvatarUrl(image)} roundedCircle style={{height:"50px"}}/>
+                        {name} (@{handle}) {date} 
+                        {this.state.session.id!==user_id && <Button>Follow user</Button>}
+                    </Card.Header>
                     <Card.Body>
                         <Card.Text>
                             {message}
@@ -120,13 +126,13 @@ class Feed extends React.Component {
                         <Nav.Link href="/">Home</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link onClick={this.handleMyPage.bind(this)}>Profile</Nav.Link>
+                        <Nav.Link onClick={this.handleMyPage.bind(this, {handle})}>Profile</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="link-2">About</Nav.Link>
                     </Nav.Item>
                 </Nav>
-                <div>
+                <div style={{ backgroundImage: `url(require("src/bg.jpeg"))`}}>
                     <h1>Feed for {name} (@{handle})</h1>
                 <div>
                     <Form.Group 

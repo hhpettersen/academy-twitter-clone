@@ -3,16 +3,9 @@ import { formatDistance } from 'date-fns'
 import { Button, Card, Container, Row, Nav, Col, Image, Accordion } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-// Avatars
-import avatarOne from '../images/avatars/1.jpg'
-import avatarTwo from '../images/avatars/2.jpg'
-import avatarThree from '../images/avatars/3.gif'
-import avatarFour from '../images/avatars/4.jfif'
-import avatarFive from '../images/avatars/5.png'
-import avatarSix from '../images/avatars/6.png'
-
 import { getTweetsByUserId, deleteTweetById } from '../services/tweets'
 import { getUserData, updateImage } from '../services/users'
+import { getAvatarUrl } from '../services/avatar';
 
 class MyProfile extends React.Component {
     constructor(props) {
@@ -22,10 +15,10 @@ class MyProfile extends React.Component {
             handle: '',
             name: '',
             avatar: '',
+            about: '',
             image: null,
             imageError: null,
-            tweets: [],
-            avatarArray: [avatarOne, avatarTwo, avatarThree, avatarFour, avatarFive, avatarSix],
+            tweets: []
         }
     }
 
@@ -40,12 +33,13 @@ class MyProfile extends React.Component {
     }
 
     async getUserData() {
-            const userData = await getUserData();
-            this.setState({ 
-                handle: userData.handle,
-                name: userData.name,
-                avatar: userData.image,
-             })
+        const userData = await getUserData();
+        this.setState({ 
+            handle: userData.handle,
+            name: userData.name,
+            avatar: userData.image,
+            about: userData.about,
+        })
     }
 
     handleBackClick () {
@@ -54,8 +48,9 @@ class MyProfile extends React.Component {
     }
 
     handleEditClick () {
+        const { handle } = this.state;
         const { history } = this.props;
-        history.push('/editprofile')
+        history.push(`/editprofile/${handle}`)
     }
 
     handleDeleteTweet = async (id) => {
@@ -63,22 +58,9 @@ class MyProfile extends React.Component {
         this.componentDidMount();
     }
 
-    imageClick = async (id) => {
-        this.setState({ image: id })
-        const { image } = await this.state;
-        await updateImage({image})
-        this.componentDidMount();
-    }
 
     render() {
-        const { handle, name, tweets, avatarArray, changeClick } = this.state;
-
-        const avatarElements = avatarArray
-        .map((avatar, index) => {
-            return (
-                <Image src={avatar} onClick={this.imageClick.bind(this, (index))}/>
-            )
-        })
+        const { handle, name, about, tweets, avatar } = this.state;
 
         const tweetElements = tweets
         .map(({ id, message, created_at }) => {
@@ -116,30 +98,12 @@ class MyProfile extends React.Component {
                         </Nav.Item>
                     </Nav>
 
-                    <Image src={avatarArray[this.state.avatar]} roundedCircle className="rounded mx-auto d-block" style={{ height:"100px" }}/>
-                    
-                    <Accordion className="text-center">
-                        <Card>
-                            <Card.Header>
-                            <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                <Button>Change Avatar</Button>
-                            </Accordion.Toggle>
-                            </Card.Header>
-                            <Accordion.Collapse eventKey="0">
-                            <Card.Body className="avatars">
-                                {avatarElements}
-                            </Card.Body>
-                            </Accordion.Collapse>
-                        </Card>
-                    </Accordion>
+                    <Image src={getAvatarUrl(avatar)} roundedCircle className="rounded mx-auto d-block" style={{ height:"100px" }}/>
 
                     <Card className="text-center" style={{ width: 'auto', marginTop: "10px"}}>
                         <Card.Body>
                             <Card.Title>{name} (@{handle})</Card.Title>
-                            <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                            </Card.Text>
+                            <Card.Text>{about}</Card.Text>
                             <Button variant="primary" onClick={this.handleEditClick.bind(this)} style={{margin: "5px"}}>Edit profile</Button>
                             <Button variant="primary" style={{margin: "5px"}}><Link to="/logout" style={{color: "white", textDecoration: "none"}}>Log out</Link></Button>
                         </Card.Body>

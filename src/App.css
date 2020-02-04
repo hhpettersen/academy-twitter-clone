@@ -56,3 +56,7 @@ body {
   border-radius: 50%;
 }
 
+.test {
+  background-image: url('/src/bg.jfif');
+  color:green;
+}
