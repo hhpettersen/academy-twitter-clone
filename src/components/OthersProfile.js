@@ -4,7 +4,7 @@ import { Button, Card, Container, Row, Nav, Col, Image, Accordion } from 'react-
 import { Link } from 'react-router-dom';
 
 import { getTweetsByUserId, deleteTweetById } from '../services/tweets'
-import { getUserData, updateImage } from '../services/users'
+import { getUserDataByHandle, addFollower, removeFollower } from '../services/users'
 import { getAvatarUrl } from '../services/avatar';
 
 class OthersProfile extends React.Component {
@@ -14,6 +14,7 @@ class OthersProfile extends React.Component {
         this.state = {
             handle: '',
             name: '',
+            id: '',
             avatar: '',
             about: '',
             image: null,
@@ -28,18 +29,22 @@ class OthersProfile extends React.Component {
     }
 
     async populateTweets() {
-        const tweets = await getTweetsByUserId();
+        const { id } = this.state;
+        const tweets = await getTweetsByUserId({ id });
         this.setState({ tweets: tweets })
     }
 
     async getUserData() {
-        const handle = this.props.match.params.handle;
-        const userData = await getUserData();
+        await this.setState({
+            handle: this.props.match.params.handle
+        })
+        const { handle } = this.state;
+        const userData = await getUserDataByHandle({ handle });
         this.setState({ 
-            handle: userData.handle,
             name: userData.name,
             avatar: userData.image,
             about: userData.about,
+            id: userData.id,
         })
     }
 
@@ -59,9 +64,16 @@ class OthersProfile extends React.Component {
         this.componentDidMount();
     }
 
+    async handleAddFollowerClick(follow_id) {
+        await addFollower({ follow_id })
+    }
+
+    async handleRemoveFollowerClick(follow_id) {
+        await addFollower({ follow_id })
+    }
 
     render() {
-        const { handle, name, about, tweets, avatar } = this.state;
+        const { handle, name, about, tweets, avatar, id } = this.state;
 
         const tweetElements = tweets
         .map(({ id, message, created_at }) => {
@@ -77,7 +89,6 @@ class OthersProfile extends React.Component {
                         <Card.Text>
                             {message}
                         </Card.Text>
-                        <Button onClick={this.handleDeleteTweet.bind(this, {id})}>Delete tweet</Button>
                     </Card.Body>
                 </Card>
             );
@@ -87,7 +98,7 @@ class OthersProfile extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                    <Nav justify variant="tabs" defaultActiveKey="/myprofile">
+                    <Nav justify variant="tabs" defaultActiveKey="/">
                         <Nav.Item>
                             <Nav.Link href="/">Home</Nav.Link>
                         </Nav.Item>
@@ -105,14 +116,13 @@ class OthersProfile extends React.Component {
                         <Card.Body>
                             <Card.Title>{name} (@{handle})</Card.Title>
                             <Card.Text>{about}</Card.Text>
-                            <Button variant="primary" onClick={this.handleEditClick.bind(this)} style={{margin: "5px"}}>Edit profile</Button>
-                            <Button variant="primary" style={{margin: "5px"}}><Link to="/logout" style={{color: "white", textDecoration: "none"}}>Log out</Link></Button>
+                            <Button onClick={this.handleAddFollowerClick.bind(this, {id})}>Follow</Button>
                         </Card.Body>
                     </Card>
                     
 
                     <div>
-                        <h1>My tweets</h1>
+                        <h1>Tweets</h1>
                         <div>{tweetElements}</div>
                     </div>
                     </Col>

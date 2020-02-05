@@ -1,7 +1,13 @@
 const API_URL = '/api';
 
 export function getTweets() {
-    return fetch(`${API_URL}/tweets`)
+    return fetch(`${API_URL}/tweets`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Auth-Token': localStorage.getItem('twitter_clone_token')
+        }
+    })
     .then((res) => res.json());
 }
 
@@ -34,13 +40,14 @@ export async function deleteTweetById(data) {
       return await response.json();
 }
 
-export async function getTweetsByUserId () {
+export async function getTweetsByUserId ({ id }) {
     const response = await fetch(`${API_URL}/userfeed`, {
-        method: 'GET',
+        method: 'POST',
         headers : {
             'Content-type': 'application/json',
             'X-Auth-Token': localStorage.getItem('twitter_clone_token')
-        }
+        },
+        body: JSON.stringify({ id })
     })
     return await response.json();
 }

@@ -95,6 +95,19 @@ editUserImage = async (userData) => {
 }
 
 // getting all user-data by id
+getUserByHandle = async (handle) => {
+  const { rows } = await pool.query(`
+    SELECT
+      *
+    FROM
+      users
+    WHERE
+      handle = $1`,
+      [handle])
+
+  return rows[0]
+}
+
 getUserById = async (id) => {
   const { rows } = await pool.query(`
     SELECT
@@ -108,14 +121,14 @@ getUserById = async (id) => {
   return rows[0]
 }
 
-function getUserByHandle(handle) {
-    return pool.query(`
-      SELECT * FROM users WHERE handle = $1
-    `, [handle])
-      .then(({
-        rows
-      }) => rows[0]);
-  }
+// function getUserByHandle(handle) {
+//     return pool.query(`
+//       SELECT * FROM users WHERE handle = $1
+//     `, [handle])
+//       .then(({
+//         rows
+//       }) => rows[0]);
+//   }
   
   function deleteTweetById(id) {
     return pool.query('DELETE FROM tweets WHERE id = $1', [id])
@@ -138,9 +151,9 @@ function getUserByHandle(handle) {
       createUser,
       getUserByHandle,
       editUserProfile,
-      getUserById,
       validateHandle,
       editUserImage,
       addToFollowing,
       removeFromFollowing,
+      getUserById,
   }

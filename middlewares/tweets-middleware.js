@@ -29,7 +29,7 @@ getTweets = async () => {
     SELECT 
       tweets.message 
     FROM 
-      tweets 
+      tweets
     INNER JOIN 
       users 
     ON 

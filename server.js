@@ -98,9 +98,9 @@ api.post('/tweets', authenticate, async function (req, res) {
   res.send(newTweet);
 });
 
-api.put('/follow', async function (req, res) {
+api.put('/follow', authenticate, async function (req, res) {
+  const { id } = req.user;
   const {
-    id,
     follow_id
   } = req.body;
 
@@ -109,8 +109,8 @@ api.put('/follow', async function (req, res) {
 })
 
 api.put('/unfollow', async function (req, res) {
+  const { id } = req.user;
   const {
-    id,
     follow_id
   } = req.body;
 
@@ -126,24 +126,31 @@ api.delete('/delete', authenticate, async (req, res) => {
   res.send({id})
 })
 
-api.get('/userfeed', authenticate, async function (req, res) {
-  const { id } = req.user;
+api.post('/userfeed', authenticate, async function (req, res) {
+  const { id } = req.body;
+
   const tweets = await getFeedById(id);
   res.send(tweets);
 })
 
 
-api.get('/myprofile', authenticate, async function (req, res) {
+api.post('/user', authenticate, async function (req, res) {
+  const { handle } = req.body;
+  const userData = await getUserByHandle(handle);
+  res.send(userData);
+})
+
+api.get('/user', authenticate, async function (req, res) {
   const { id } = req.user;
   const userData = await getUserById(id);
   res.send(userData);
 })
 
-api.get('/user', authenticate, async function (req, res) {
-  const { handle } = req.body;
-  const userData = await getUserByHandle(handle);
-  res.send(userData);
-})
+// api.get('/user', authenticate, async function (req, res) {
+//   const { handle } = req.body;
+//   const userData = await getUserByHandle(handle);
+//   res.send(userData);
+// })
 
 api.put('/editprofile', authenticate, async function (req, res) {
   const { id } = req.user;
@@ -177,7 +184,7 @@ api.put('/editimage', authenticate, async function (req, res) {
   res.send(updateImage);
 })
 
-api.get('/tweets', async function (req, res) {
+api.get('/tweets', authenticate, async function (req, res) {
   const tweets = await getTweets();
   res.send(tweets);
 });

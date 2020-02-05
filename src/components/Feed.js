@@ -5,7 +5,7 @@ import { Button, Card, Container, Row, Form, Nav, Col, Image } from 'react-boots
 
 import { getTweets, postTweet } from '../services/tweets';
 import { getAvatarUrl } from '../services/avatar';
-import { getUserData, addFollower, removeFollower } from '../services/users'
+import { getUserDataById } from '../services/users'
 
 
 
@@ -44,7 +44,7 @@ class Feed extends React.Component {
     }
 
     async getUserData() {
-        const userData = await getUserData();
+        const userData = await getUserDataById();
         this.setState({ 
             id: userData.id,
             name: userData.name,
@@ -56,16 +56,6 @@ class Feed extends React.Component {
         this.setState({
             [field]: event.target.value
         });
-    }
-
-    async handleAddFollowerClick(follow_id) {
-        const { id } = this.state;
-        await addFollower({ id, follow_id })
-    }
-
-    async handleRemoveFollowerClick(follow_id) {
-        const { id } = this.state;
-        await addFollower({ id, follow_id })
     }
 
     async handleSubmitTweet() {
@@ -84,9 +74,13 @@ class Feed extends React.Component {
         history.push(`/myprofile/${data.handle}`);
     }
 
-    handleOthersPage(data) {
+    handleProfileClick(data) {
         const { history } = this.props;
-        history.push(`/user/${data.handle}`);
+        if (data.handle !== this.state.handle) {
+            history.push(`/user/${data.handle}`);
+        } else {
+            history.push(`/myprofile/${data.handle}`);
+        }
     }
 
     render() {
@@ -124,8 +118,7 @@ class Feed extends React.Component {
                 <Card key={id} style={{ marginTop: '0.3rem' }}>
                     <Card.Header>
                         <Image src={getAvatarUrl(image)} roundedCircle style={{height:"50px"}}/>
-                        {name} (@{handle}) {date} <Button onClick={this.handleOthersPage.bind(this, {handle})}>Profile</Button>
-                        {this.state.session.id!==user_id && <Button onClick={this.handleAddFollowerClick.bind(this, user_id)}>Follow user</Button>}
+                        {name} (@{handle}) {date} <Button onClick={this.handleProfileClick.bind(this, {handle})}>Profile</Button>
                     </Card.Header>
                     <Card.Body>
                         <Card.Text>

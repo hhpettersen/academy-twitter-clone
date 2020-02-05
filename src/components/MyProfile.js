@@ -4,7 +4,7 @@ import { Button, Card, Container, Row, Nav, Col, Image, Accordion } from 'react-
 import { Link } from 'react-router-dom';
 
 import { getTweetsByUserId, deleteTweetById } from '../services/tweets'
-import { getUserData, updateImage } from '../services/users'
+import { getUserDataByHandle , updateImage } from '../services/users'
 import { getAvatarUrl } from '../services/avatar';
 
 class MyProfile extends React.Component {
@@ -14,6 +14,7 @@ class MyProfile extends React.Component {
         this.state = {
             handle: '',
             name: '',
+            id: '',
             avatar: '',
             about: '',
             image: null,
@@ -28,18 +29,23 @@ class MyProfile extends React.Component {
     }
 
     async populateTweets() {
-        const tweets = await getTweetsByUserId();
+        const { id } = this.state;
+        const tweets = await getTweetsByUserId({id});
         this.setState({ tweets: tweets })
     }
 
     async getUserData() {
-        const handle = this.props.match.params.handle;
-        const userData = await getUserData();
+        await this.setState({
+            handle: this.props.match.params.handle
+        })
+        const { handle } = this.state;
+        const userData = await getUserDataByHandle({ handle });
         this.setState({ 
             handle: userData.handle,
             name: userData.name,
             avatar: userData.image,
             about: userData.about,
+            id: userData.id,
         })
     }
 

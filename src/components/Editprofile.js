@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Container, Row, Form, Nav, Col, Image, Accordion } from 'react-bootstrap';
 
-import { getUserData, updateUser, updateImage } from '../services/users'
+import { getUserDataById, updateUser, updateImage } from '../services/users'
 import { getAvatarUrl, avatarAmount } from '../services/avatar';
 
 
@@ -15,7 +15,7 @@ class EditProfile extends React.Component {
     }
 
     async componentDidMount() {
-        const userData = await getUserData();
+        const userData = await getUserDataById();
         this.setState({
             editForm: {
                 handle: userData.handle,
