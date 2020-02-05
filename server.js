@@ -24,6 +24,7 @@ const {
   validateHandle,
   editUserImage,
   addToFollowing,
+  removeFromFollowing,
 } = require('./middlewares/user-middleware')
 const {
   cryptPassword,
@@ -97,6 +98,26 @@ api.post('/tweets', authenticate, async function (req, res) {
   res.send(newTweet);
 });
 
+api.put('/follow', async function (req, res) {
+  const {
+    id,
+    follow_id
+  } = req.body;
+
+  const updateFollower = await addToFollowing({ follow_id, id });
+  res.send(updateFollower)
+})
+
+api.put('/unfollow', async function (req, res) {
+  const {
+    id,
+    follow_id
+  } = req.body;
+
+  const updateFollower = await removeFromFollowing({ follow_id, id })
+  res.send(updateFollower);
+})
+
 api.delete('/delete', authenticate, async (req, res) => {
   const { id } = req.user;
   const { data } = req.body;
@@ -115,6 +136,12 @@ api.get('/userfeed', authenticate, async function (req, res) {
 api.get('/myprofile', authenticate, async function (req, res) {
   const { id } = req.user;
   const userData = await getUserById(id);
+  res.send(userData);
+})
+
+api.get('/user', authenticate, async function (req, res) {
+  const { handle } = req.body;
+  const userData = await getUserByHandle(handle);
   res.send(userData);
 })
 

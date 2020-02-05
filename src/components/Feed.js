@@ -5,7 +5,7 @@ import { Button, Card, Container, Row, Form, Nav, Col, Image } from 'react-boots
 
 import { getTweets, postTweet } from '../services/tweets';
 import { getAvatarUrl } from '../services/avatar';
-import { getUserData } from '../services/users'
+import { getUserData, addFollower, removeFollower } from '../services/users'
 
 
 
@@ -23,11 +23,14 @@ class Feed extends React.Component {
             message: '',
             session: payload,
             id: '',
+            name: '',
+            handle: '',
         }
     }
 
     async componentDidMount() {
         await this.populateTweets();
+        await this.getUserData();
     }
 
     async populateTweets() {
@@ -43,7 +46,9 @@ class Feed extends React.Component {
     async getUserData() {
         const userData = await getUserData();
         this.setState({ 
-            id: userData.id
+            id: userData.id,
+            name: userData.name,
+            handle: userData.handle
         })
     }
 
@@ -51,6 +56,16 @@ class Feed extends React.Component {
         this.setState({
             [field]: event.target.value
         });
+    }
+
+    async handleAddFollowerClick(follow_id) {
+        const { id } = this.state;
+        await addFollower({ id, follow_id })
+    }
+
+    async handleRemoveFollowerClick(follow_id) {
+        const { id } = this.state;
+        await addFollower({ id, follow_id })
     }
 
     async handleSubmitTweet() {
@@ -69,12 +84,16 @@ class Feed extends React.Component {
         history.push(`/myprofile/${data.handle}`);
     }
 
+    handleOthersPage(data) {
+        const { history } = this.props;
+        history.push(`/user/${data.handle}`);
+    }
+
     render() {
         const { 
-            session : {
-                name, 
-                handle,
-            } = {},
+            id,
+            name, 
+            handle,
             tweets,
             isLoading,
             error,
@@ -105,8 +124,8 @@ class Feed extends React.Component {
                 <Card key={id} style={{ marginTop: '0.3rem' }}>
                     <Card.Header>
                         <Image src={getAvatarUrl(image)} roundedCircle style={{height:"50px"}}/>
-                        {name} (@{handle}) {date} 
-                        {this.state.session.id!==user_id && <Button>Follow user</Button>}
+                        {name} (@{handle}) {date} <Button onClick={this.handleOthersPage.bind(this, {handle})}>Profile</Button>
+                        {this.state.session.id!==user_id && <Button onClick={this.handleAddFollowerClick.bind(this, user_id)}>Follow user</Button>}
                     </Card.Header>
                     <Card.Body>
                         <Card.Text>

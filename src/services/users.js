@@ -46,6 +46,26 @@ export async function updateImage({ image }) {
   return response.json();
 }
 
-export function getAvatarUrl(avatarId) {
-  return `/avatars/${avatarId}.jpg`;
+export async function addFollower({ id, follow_id }) {
+  const response = await fetch(`${API_URL}/follow`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': localStorage.getItem('twitter_clone_token')
+    },
+    body: JSON.stringify({ id, follow_id })
+  })
+  return response.json();
+}
+
+export async function removeFollower({ id, follow_id }) {
+  const response = await fetch(`${API_URL}/unfollow`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': localStorage.getItem('twitter_clone_token')
+    },
+    body: JSON.stringify({ id, follow_id })
+  })
+  return response.json();
 }

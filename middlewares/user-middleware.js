@@ -61,17 +61,26 @@ editUserProfile = async (userData) => {
 addToFollowing = async (userData) => {
   const { rows } = await pool.query(
     `
+      UPDATE users SET
+      following = following || '{${userData.follow_id}}'
+      WHERE 
+        id = $1
+      RETURNING *
+    `, [userData.id])
+
+    return rows[0]
+}
+
+removeFromFollowing = async (userData) => {
+  const { rows } = await pool.query(
+    `
     UPDATE users SET
-     following = following || '{$1}' 
-    WHERE 
-      id = $2
-    RETURNING *
-    `, [userData.follow_id, userData.id])
+      following = array_remove(following, $1);
+    `, [userData.id])
 
     return rows[0]
 }
     
-
 editUserImage = async (userData) => {
   const { rows } = await pool.query(
     `
@@ -133,4 +142,5 @@ function getUserByHandle(handle) {
       validateHandle,
       editUserImage,
       addToFollowing,
+      removeFromFollowing,
   }

@@ -7,7 +7,7 @@ import { getTweetsByUserId, deleteTweetById } from '../services/tweets'
 import { getUserData, updateImage } from '../services/users'
 import { getAvatarUrl } from '../services/avatar';
 
-class MyProfile extends React.Component {
+class OthersProfile extends React.Component {
     constructor(props) {
         super(props);
 
@@ -122,4 +122,4 @@ class MyProfile extends React.Component {
     }
 }
 
-export default MyProfile;
+export default OthersProfile;
