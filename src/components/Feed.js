@@ -65,7 +65,7 @@ class Feed extends React.Component {
             return;
         }
 
-        const newTweet = await postTweet(message);
+        await postTweet(message);
         await this.populateTweets();
     }
 
@@ -114,8 +114,12 @@ class Feed extends React.Component {
              return (
                 <Card key={id} style={{ marginTop: '0.3rem' }}>
                     <Card.Header>
-                        <Image src={getAvatarUrl(image)} roundedCircle style={{height:"50px"}}/>
-                        {name} (@{handle}) {date} <Button onClick={this.handleProfileClick.bind(this, {handle})}>Profile</Button>
+                        <Image
+                        className="avatarSmallIcon"
+                        onClick={this.handleProfileClick.bind(this, {handle})} 
+                        src={getAvatarUrl(image)} 
+                        roundedCircle style={{height:"50px"}}/>
+                        {name} (@{handle}) {date}
                     </Card.Header>
                     <Card.Body>
                         <Card.Text>

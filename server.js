@@ -155,12 +155,6 @@ api.get('/user', authenticate, async function (req, res) {
   res.send(userData);
 })
 
-// api.get('/user', authenticate, async function (req, res) {
-//   const { handle } = req.body;
-//   const userData = await getUserByHandle(handle);
-//   res.send(userData);
-// })
-
 api.put('/editprofile', authenticate, async function (req, res) {
   const { id } = req.user;
   const {
@@ -207,7 +201,6 @@ api.post('/signup', async function (req, res) {
 
   const handleCount = await validateHandle(handle);
   const hashPassword = await cryptPassword(password);
-  console.log(handleCount.count)
 
   if (+handleCount.count) {
     return res.status(403).json({ status: 403, message: 'Handle already in use, please try again.'})

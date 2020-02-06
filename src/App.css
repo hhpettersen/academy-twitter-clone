@@ -60,3 +60,16 @@ body {
   background-image: url('/src/bg.jfif');
   color:green;
 }
+
+.avatarSmallIcon {
+  filter: brightness(100%);
+  -o-transition:.5s;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+}
+
+.avatarSmallIcon:hover {
+  cursor: pointer;
+  filter: brightness(70%);
+}

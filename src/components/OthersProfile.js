@@ -21,8 +21,8 @@ class OthersProfile extends React.Component {
             tweets: [],
             checkFollow: null,
             followInfo: {
-                followers: null,
-                following: null,
+                followers: 0,
+                following: 0,
             }
         }
     }
@@ -52,7 +52,7 @@ class OthersProfile extends React.Component {
             id: data.userData.id,
             followInfo: {
                 followers: data.userData.followers.length,
-                following: data.userData.following.length
+                following: data.userData.following.length,
             }
         })
     }

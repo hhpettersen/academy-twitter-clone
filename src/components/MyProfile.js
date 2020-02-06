@@ -20,8 +20,8 @@ class MyProfile extends React.Component {
             image: null,
             tweets: [],
             follow: {
-                followers: null,
-                following: null,
+                followers: 0,
+                following: 0,
             }
         }
     }

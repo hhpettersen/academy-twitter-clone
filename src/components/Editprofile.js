@@ -98,7 +98,7 @@ class EditProfile extends React.Component {
                             <Card>
                                 <Card.Header>
                                 <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                    <Button className="pull-left" bsStyle="danger">Change Avatar</Button>
+                                    <Button className="pull-left">Change Avatar</Button>
                                 </Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="0">
