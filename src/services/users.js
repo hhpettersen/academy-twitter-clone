@@ -58,7 +58,9 @@ export async function updateImage({ image }) {
   return response.json();
 }
 
-export async function addFollower({ follow_id }) {
+// FOLLOW
+
+export async function addFollower( follow_id ) {
   const response = await fetch(`${API_URL}/follow`, {
     method: 'PUT',
     headers: {
@@ -70,9 +72,21 @@ export async function addFollower({ follow_id }) {
   return response.json();
 }
 
-export async function removeFollower({ follow_id }) {
+export async function removeFollower( follow_id ) {
   const response = await fetch(`${API_URL}/unfollow`, {
     method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': localStorage.getItem('twitter_clone_token')
+    },
+    body: JSON.stringify({ follow_id })
+  })
+  return response.json();
+}
+
+export async function checkIfFollow( follow_id ) {
+  const response = await fetch(`${API_URL}/checkfollow`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-Auth-Token': localStorage.getItem('twitter_clone_token')

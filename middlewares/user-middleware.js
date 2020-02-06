@@ -58,6 +58,8 @@ editUserProfile = async (userData) => {
   return rows[0]
 }
 
+/////////////////////FOLLOW///////////////////
+
 addToFollowing = async (userData) => {
   const { rows } = await pool.query(
     `
@@ -75,11 +77,25 @@ removeFromFollowing = async (userData) => {
   const { rows } = await pool.query(
     `
     UPDATE users SET
-      following = array_remove(following, $1);
-    `, [userData.id])
+      following = array_remove(following, $1)
+    WHERE id = $2
+    RETURNING *
+    `, [userData.follow_id, userData.id])
 
     return rows[0]
 }
+
+checkIfFollowing = async (userData) => {
+  const { rows } = await pool.query(`
+  SELECT COUNT(*) FROM
+    users
+  WHERE $1 = ANY(following)
+  `, [userData.follow_id])
+
+  return rows [0]
+}
+
+///////////////////END FOLLOW/////////////////////
     
 editUserImage = async (userData) => {
   const { rows } = await pool.query(
@@ -121,14 +137,6 @@ getUserById = async (id) => {
   return rows[0]
 }
 
-// function getUserByHandle(handle) {
-//     return pool.query(`
-//       SELECT * FROM users WHERE handle = $1
-//     `, [handle])
-//       .then(({
-//         rows
-//       }) => rows[0]);
-//   }
   
   function deleteTweetById(id) {
     return pool.query('DELETE FROM tweets WHERE id = $1', [id])
@@ -156,4 +164,5 @@ getUserById = async (id) => {
       addToFollowing,
       removeFromFollowing,
       getUserById,
+      checkIfFollowing,
   }

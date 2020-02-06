@@ -1,10 +1,10 @@
 import React from 'react';
 import { formatDistance } from 'date-fns'
-import { Button, Card, Container, Row, Nav, Col, Image, Accordion } from 'react-bootstrap';
+import { Button, Card, Container, Row, Nav, Col, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { getTweetsByUserId, deleteTweetById } from '../services/tweets'
-import { getUserDataByHandle , updateImage } from '../services/users'
+import { getUserDataByHandle } from '../services/users'
 import { getAvatarUrl } from '../services/avatar';
 
 class MyProfile extends React.Component {
@@ -104,6 +104,8 @@ class MyProfile extends React.Component {
                             <Nav.Link eventKey="link-2">About</Nav.Link>
                         </Nav.Item>
                     </Nav>
+
+                    <Button onClick={this.handleBackClick.bind(this)}>Back to feed</Button>
 
                     <Image src={getAvatarUrl(avatar)} roundedCircle className="rounded mx-auto d-block" style={{ height:"100px" }}/>
 

@@ -1,6 +1,3 @@
-import React from 'react';
-import { Button, Card, Container, Row, Nav, Col, Image, Accordion } from 'react-bootstrap';
-
 // Function to get one image
 
 export function getAvatarUrl(avatarId) {

@@ -85,14 +85,11 @@ class Feed extends React.Component {
 
     render() {
         const { 
-            id,
             name, 
             handle,
             tweets,
             isLoading,
             error,
-            message,
-            avatarArray
          } = this.state;
 
          if (error) {

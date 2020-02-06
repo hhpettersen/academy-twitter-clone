@@ -25,6 +25,7 @@ const {
   editUserImage,
   addToFollowing,
   removeFromFollowing,
+  checkIfFollowing,
 } = require('./middlewares/user-middleware')
 const {
   cryptPassword,
@@ -100,22 +101,24 @@ api.post('/tweets', authenticate, async function (req, res) {
 
 api.put('/follow', authenticate, async function (req, res) {
   const { id } = req.user;
-  const {
-    follow_id
-  } = req.body;
+  const { follow_id } = req.body;
 
   const updateFollower = await addToFollowing({ follow_id, id });
   res.send(updateFollower)
 })
 
-api.put('/unfollow', async function (req, res) {
+api.put('/unfollow', authenticate, async function (req, res) {
   const { id } = req.user;
-  const {
-    follow_id
-  } = req.body;
+  const { follow_id } = req.body;
 
   const updateFollower = await removeFromFollowing({ follow_id, id })
   res.send(updateFollower);
+})
+
+api.post('/checkfollow', authenticate, async function (req, res) {
+  const { follow_id } = req.body;
+  const booleanFollow = await checkIfFollowing({ follow_id })
+  res.send(booleanFollow)
 })
 
 api.delete('/delete', authenticate, async (req, res) => {

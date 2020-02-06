@@ -23,7 +23,7 @@ class Signup extends React.Component {
     async handleSubmit(event) {
         event.preventDefault();
         const { history } = this.props;
-        const { name, handle, password, passwordTwo } = this.state.users;
+        const { handle, password, passwordTwo } = this.state.users;
 
         if (password !== passwordTwo) {
             this.setState({ passwordError: "Passwords does not match, please try again."})

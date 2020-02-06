@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Switch, Route} from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
@@ -18,7 +18,7 @@ import OthersProfile from './components/OthersProfile';
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Switch>
         <Route path='/' exact component={Authenticate} />
         <Route path='/home' component={Feed} />
@@ -30,7 +30,7 @@ function App() {
         <Route path='/user/:handle' component={OthersProfile} />
         <Route component={NoMatch}/>
       </Switch>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
