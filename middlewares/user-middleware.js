@@ -90,9 +90,19 @@ checkIfFollowing = async (userData) => {
   SELECT COUNT(*) FROM
     users
   WHERE $1 = ANY(following)
-  `, [userData.follow_id])
+  AND id = $2
+  `, [userData.follow_id, userData.id])
 
   return rows [0]
+}
+
+checkFollowingCount = async (userData) => {
+  const { rows } = await pool.query(`
+  SELECT array_length(following, 1)
+  FROM users WHERE id = $1
+  `, [userData.id])
+
+  return rows[0]
 }
 
 ///////////////////END FOLLOW/////////////////////

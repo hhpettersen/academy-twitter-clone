@@ -3,7 +3,7 @@ import { formatDistance } from 'date-fns'
 import { Button, Card, Container, Row, Nav, Col, Image } from 'react-bootstrap';
 
 import { getTweetsByUserId, deleteTweetById } from '../services/tweets'
-import { getUserDataByHandle, addFollower, removeFollower, checkIfFollow } from '../services/users'
+import { getUserDataByHandle, addFollower, removeFollower, checkIfFollow, getUserDataById } from '../services/users'
 import { getAvatarUrl } from '../services/avatar';
 
 class OthersProfile extends React.Component {
@@ -54,12 +54,6 @@ class OthersProfile extends React.Component {
         history.push('/')
     }
 
-    handleEditClick () {
-        const { handle } = this.state;
-        const { history } = this.props;
-        history.push(`/editprofile/${handle}`)
-    }
-
     handleDeleteTweet = async (id) => {
         await deleteTweetById(id);
         this.componentDidMount();
@@ -81,6 +75,12 @@ class OthersProfile extends React.Component {
         this.setState({
             checkFollow: parseInt(value.count)
         })
+    }
+
+    async handleMyPage(data) {
+        const { history } = this.props;
+        const userData = await getUserDataById();
+        history.push(`/myprofile/${userData.handle}`);
     }
 
     render() {
@@ -114,7 +114,7 @@ class OthersProfile extends React.Component {
                             <Nav.Link href="/">Home</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="/myprofile">Profile</Nav.Link>
+                            <Nav.Link onClick={this.handleMyPage.bind(this, {handle})}>Profile</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link eventKey="link-2">About</Nav.Link>
@@ -130,15 +130,13 @@ class OthersProfile extends React.Component {
                             <Card.Title>{name} (@{handle})</Card.Title>
                             <Card.Text>{about}</Card.Text>
 
-                            {/* {
-                                this.state.checkFollow? (
+                            {
+                                !this.state.checkFollow? (
                                     <Button onClick={this.handleAddFollowerClick.bind(this, {id})}>Follow</Button>
                                 )  : (
                                     <Button onClick={this.handleRemoveFollowerClick.bind(this, {id})}>Unfollow</Button>
                                 )
-                            } */}
-
-                            {!this.state.checkFollow && <Button onClick={this.handleAddFollowerClick.bind(this, {id})}>Follow</Button> || this.state.checkFollow && <Button onClick={this.handleRemoveFollowerClick.bind(this, {id})}>Unfollow</Button>}
+                            }
 
                         </Card.Body>
                     </Card>

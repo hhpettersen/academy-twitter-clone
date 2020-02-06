@@ -117,7 +117,8 @@ api.put('/unfollow', authenticate, async function (req, res) {
 
 api.post('/checkfollow', authenticate, async function (req, res) {
   const { follow_id } = req.body;
-  const booleanFollow = await checkIfFollowing({ follow_id })
+  const { id } = req.user;
+  const booleanFollow = await checkIfFollowing({ follow_id, id })
   res.send(booleanFollow)
 })
 
