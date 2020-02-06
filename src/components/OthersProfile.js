@@ -20,6 +20,10 @@ class OthersProfile extends React.Component {
             imageError: null,
             tweets: [],
             checkFollow: null,
+            followInfo: {
+                followers: null,
+                following: null,
+            }
         }
     }
 
@@ -40,12 +44,16 @@ class OthersProfile extends React.Component {
             handle: this.props.match.params.handle
         })
         const { handle } = this.state;
-        const userData = await getUserDataByHandle({ handle });
+        const data = await getUserDataByHandle({ handle });
         this.setState({ 
-            name: userData.name,
-            avatar: userData.image,
-            about: userData.about,
-            id: userData.id,
+            name: data.userData.name,
+            avatar: data.userData.image,
+            about: data.userData.about,
+            id: data.userData.id,
+            followInfo: {
+                followers: data.userData.followers.length,
+                following: data.userData.following.length
+            }
         })
     }
 
@@ -62,11 +70,13 @@ class OthersProfile extends React.Component {
     async handleAddFollowerClick(follow_id) {
         await addFollower( follow_id.id )
         await this.checkFollow()
+        this.componentDidMount()
     }
 
     async handleRemoveFollowerClick(follow_id) {
         await removeFollower( follow_id.id )
         await this.checkFollow()
+        this.componentDidMount()
     }
 
     async checkFollow() {
@@ -84,7 +94,7 @@ class OthersProfile extends React.Component {
     }
 
     render() {
-        const { handle, name, about, tweets, avatar, id } = this.state;
+        const { handle, name, about, tweets, avatar, id, followInfo } = this.state;
 
         const tweetElements = tweets
         .map(({ id, message, created_at }) => {
@@ -95,7 +105,10 @@ class OthersProfile extends React.Component {
 
             return (
                 <Card key={id} style={{ margin: '0.3rem' }}>
-                    <Card.Header>{name} (@{handle}) {date}</Card.Header>
+                    <Card.Header>
+                        <Image src={getAvatarUrl(this.state.avatar)} roundedCircle style={{height:"50px"}}/>
+                        {name} (@{handle}) {date}
+                    </Card.Header>
                     <Card.Body>
                         <Card.Text>
                             {message}
@@ -128,6 +141,7 @@ class OthersProfile extends React.Component {
                     <Card className="text-center" style={{ width: 'auto', marginTop: "10px"}}>
                         <Card.Body>
                             <Card.Title>{name} (@{handle})</Card.Title>
+                            <Card.Text>following: {followInfo.following} | followers: {followInfo.followers}</Card.Text>
                             <Card.Text>{about}</Card.Text>
 
                             {

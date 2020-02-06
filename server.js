@@ -26,6 +26,8 @@ const {
   addToFollowing,
   removeFromFollowing,
   checkIfFollowing,
+  checkFollowingCount,
+  checkFollowerCount,
 } = require('./middlewares/user-middleware')
 const {
   cryptPassword,
@@ -140,8 +142,11 @@ api.post('/userfeed', authenticate, async function (req, res) {
 
 api.post('/user', authenticate, async function (req, res) {
   const { handle } = req.body;
+  const { id } = req.user;
   const userData = await getUserByHandle(handle);
-  res.send(userData);
+  const followingData = await checkFollowingCount(id);
+  const followersData = await checkFollowerCount(id);
+  res.send({userData, followingData, followersData});
 })
 
 api.get('/user', authenticate, async function (req, res) {
