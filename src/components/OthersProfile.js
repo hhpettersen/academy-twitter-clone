@@ -1,6 +1,7 @@
 import React from 'react';
 import { formatDistance } from 'date-fns'
 import { Button, Card, Container, Row, Nav, Col, Image } from 'react-bootstrap';
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 import { getTweetsByUserId, deleteTweetById } from '../services/tweets'
 import { getUserDataByHandle, addFollower, removeFollower, checkIfFollow, getUserDataById } from '../services/users'
@@ -104,7 +105,7 @@ class OthersProfile extends React.Component {
              })
 
             return (
-                <Card key={id} style={{ margin: '0.3rem' }}>
+                <Card className="tweetBox" key={id}>
                     <Card.Header>
                         <Image src={getAvatarUrl(this.state.avatar)} roundedCircle style={{height:"50px"}}/>
                         {name} (@{handle}) {date}
@@ -134,30 +135,29 @@ class OthersProfile extends React.Component {
                         </Nav.Item>
                     </Nav>
 
-                    <Button onClick={this.handleBackClick.bind(this)}>Back to feed</Button>
-
-                    <Image src={getAvatarUrl(avatar)} roundedCircle className="rounded mx-auto d-block" style={{ height:"100px" }}/>
-
-                    <Card className="text-center" style={{ width: 'auto', marginTop: "10px"}}>
+                    <IoIosArrowRoundBack className="backArrow" onClick={this.handleBackClick.bind(this)}/>
+                    <Card className="text-center profileCard" style={{ width: 'auto', marginTop: "10px"}}>
+                    <Card.Header>
+                    <Card.Img variant="top" src={getAvatarUrl(avatar)} className="mx-auto d-block" style={{ height:"100px", width:"100px" }}/>
+                    </Card.Header>
                         <Card.Body>
-                            <Card.Title>{name} (@{handle})</Card.Title>
-                            <Card.Text>following: {followInfo.following} | followers: {followInfo.followers}</Card.Text>
+                            <Card.Title style={{fontSize:"1.5rem"}}>{name} (@{handle})</Card.Title>
+                            <Card.Text style={{fontSize:"0.7rem"}}>following: {followInfo.following} | followers: {followInfo.followers}</Card.Text>
+                            <hr style={{backgroundColor:"white"}}></hr>
                             <Card.Text>{about}</Card.Text>
 
                             {
                                 !this.state.checkFollow? (
-                                    <Button onClick={this.handleAddFollowerClick.bind(this, {id})}>Follow</Button>
+                                    <Button variant="danger" onClick={this.handleAddFollowerClick.bind(this, {id})}>Follow</Button>
                                 )  : (
-                                    <Button onClick={this.handleRemoveFollowerClick.bind(this, {id})}>Unfollow</Button>
+                                    <Button variant="danger" onClick={this.handleRemoveFollowerClick.bind(this, {id})}>Unfollow</Button>
                                 )
                             }
 
                         </Card.Body>
                     </Card>
                     
-
                     <div>
-                        <h1>Tweets</h1>
                         <div>{tweetElements}</div>
                     </div>
                     </Col>

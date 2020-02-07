@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Card, Container, Row, Form, Nav, Col, Image, Accordion } from 'react-bootstrap';
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 import { getUserDataById, updateUser, updateImage } from '../services/users'
 import { getAvatarUrl, avatarAmount } from '../services/avatar';
@@ -57,15 +58,21 @@ class EditProfile extends React.Component {
     }
 
     imageClick = async (id) => {
-        this.setState({ image: id })
+        await this.setState({ image: id })
         const { image } = await this.state;
         await updateImage({image})
         this.componentDidMount();
     }
 
+    async handleMyPage(data) {
+        const { history } = this.props;
+        const userData = await getUserDataById();
+        history.push(`/myprofile/${userData.handle}`);
+    }
+
     render() {
 
-        const { editForm } = this.state;
+        const { editForm, handle } = this.state;
 
         const avatarElements = avatarAmount().map((avatar, index) => {
             return (
@@ -81,24 +88,21 @@ class EditProfile extends React.Component {
                             <Nav.Item>
                                 <Nav.Link href="/home">Home</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link href="/myprofile">Profile</Nav.Link>
+                            <Nav.Item style={{backgroundColor:"#24305E"}}>
+                                <Nav.Link onClick={this.handleMyPage.bind(this, {handle})}>Profile</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Nav.Link eventKey="link-2">About</Nav.Link>
                             </Nav.Item>
                         </Nav>
-                        <Button style={{marginTop:"5px"}} onClick={this.handleBackClick.bind(this)}>Back to profile</Button>
-                        
-                        <hr></hr>
-
-                        <Image src={getAvatarUrl(editForm.avatar)} roundedCircle className="rounded mx-auto d-block" style={{ height:"100px" }}/>
+                        <IoIosArrowRoundBack className="backArrow" onClick={this.handleBackClick.bind(this)}/>
                     
                         <Accordion className="text-center">
                             <Card>
                                 <Card.Header>
+                                <Card.Img variant="top" src={getAvatarUrl(editForm.avatar)} className="mx-auto d-block" style={{ height:"100px", width:"100px", borderRadius:"50px" }}/>
                                 <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                    <Button className="pull-left">Change Avatar</Button>
+                                    <Button variant="danger" className="pull-left">Change Avatar</Button>
                                 </Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="0">
@@ -109,13 +113,10 @@ class EditProfile extends React.Component {
                             </Card>
                         </Accordion>
 
-                        <hr></hr>
 
-                        <div>
-                            <h3>Edit profile</h3>
-                        </div>
 
                         <Form>
+                                <h3 style={{marginTop:"1rem"}}>Edit profile</h3>
                             <Form.Group controlId="formGroupName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control 
@@ -143,13 +144,7 @@ class EditProfile extends React.Component {
                                 />
                             </Form.Group>
                         </Form>
-                        <Button onClick={this.handleSubmitAttempt.bind(this)}>Submit changes</Button>
-                        <hr></hr>
-                        <Button>Change Password</Button>
-
-                        <hr></hr>
-
-                        
+                        <Button variant="danger" onClick={this.handleSubmitAttempt.bind(this)}>Submit changes</Button>
 
                     </Col>
                 </Row>

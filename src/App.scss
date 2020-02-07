@@ -1,0 +1,97 @@
+
+$yellow: #F8E9A1;
+$red: #F76C6C;
+$blue-light: #A8D0E6;
+$blue-base: #374785;
+$blue-dark: #24305E;
+
+html {
+    background-color: $blue-base;
+  }
+
+  
+  #root {
+    background-color: $blue-base;
+    font: "Fira Sans", sans-serif;
+    padding-bottom: 2rem;
+
+    .nav {
+        color: white;
+        border: 1px solid $blue-dark;
+    }
+
+    .nav-link {
+        color: white;
+    }
+
+    .nav-tabs {
+        color: white;
+    }
+
+    .nav-link.active {
+        background-color: $blue-dark;
+        color: white;
+        border: 1px solid $blue-dark;
+    }
+
+    .nav-link:hover {
+        border: 1px solid $blue-light;
+    }
+  }
+
+.loginBox {
+    background-color: $blue-dark;
+    margin-top: 2rem;
+    color: white;
+
+    .card-header {
+        background-color: white;
+        font-size: 2rem;
+        color: $blue-dark;
+    }
+}
+
+.backArrow {
+    font-size: 4rem;
+    color: white;
+}
+
+.tweetBox {
+    margin-top: 0.5rem;
+
+    .card-header {
+        background-color: $blue-dark;
+        color: white;
+
+        img {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .card-body {
+        background-color: white;
+        color: black;
+    }
+}
+
+.feedName {
+    color: white;
+    margin: 10px px;
+}
+
+.profileCard {
+    background-color: $blue-dark;
+    color: white;
+
+    .card-img-top {
+        border-radius: 50px;
+    }
+
+    .card-header {
+        background-color: white;
+    }
+}
+
+form {
+    color: white;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Button, Container, Row, Col, Form, Card } from 'react-bootstrap';
 
 import { createSession } from '../services/session';
 
@@ -63,7 +63,10 @@ class Login extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                        <h1>Login</h1>
+                    <Card className="loginBox">
+                        <Card.Header>Håkons Twitter-clone</Card.Header>
+                        <Card.Body>
+                        <Card.Title>Login</Card.Title>
                         <Form>
                             <Form.Group controlId="formGroupHandle">
                                 <Form.Label>Handle</Form.Label>
@@ -84,8 +87,14 @@ class Login extends React.Component {
                         {error && <p>Unable to log in: {error.message}</p>}
                     </div>
                         </Form>
-                        <Button style={{marginRight:"5px"}} onClick={this.handleLoginAttempt.bind(this)}>Log in</Button>
-                        <Button onClick={this.handleSignup.bind(this)}>Sign up</Button>
+                        <Button variant="danger" style={{marginRight:"5px"}} onClick={this.handleLoginAttempt.bind(this)}>Log in</Button>
+                        <Button variant="danger" onClick={this.handleSignup.bind(this)}>Sign up</Button>
+                        {/* <Card.Text>
+                            Some quick example text to build on the card title and make up the bulk
+                            of the card's content.
+                        </Card.Text> */}
+                        </Card.Body>
+                    </Card>
                     </Col>
                 </Row>
             </Container>

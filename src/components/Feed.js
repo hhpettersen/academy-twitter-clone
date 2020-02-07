@@ -112,7 +112,7 @@ class Feed extends React.Component {
               })
 
              return (
-                <Card key={id} style={{ marginTop: '0.3rem' }}>
+                <Card key={id} className="tweetBox">
                     <Card.Header>
                         <Image
                         className="avatarSmallIcon"
@@ -145,8 +145,8 @@ class Feed extends React.Component {
                         <Nav.Link eventKey="link-2">About</Nav.Link>
                     </Nav.Item>
                 </Nav>
-                <div style={{ backgroundImage: `url(require("src/bg.jpeg"))`}}>
-                    <h1>Feed for {name} (@{handle})</h1>
+                <div className="feedName" style={{marginTop: "1.5rem"}}>
+                    <h1 style={{fontSize:"2rem"}}>Feed for {name} <span style={{fontSize:"1rem"}}>(@{handle})</span></h1>
                 <div>
                     <Form.Group 
                         controlId="exampleForm.ControlTextarea1"
@@ -154,8 +154,8 @@ class Feed extends React.Component {
                         onChange={this.handleInputChange.bind(this, 'message')}
                     >
                         <Form.Control as="textarea" rows="3" placeholder="Compose your tweet here..."/>
+                    <Button variant="danger" onClick={this.handleSubmitTweet.bind(this)} style={{marginTop:"0.1rem"}}>Tweet</Button>
                     </Form.Group>
-                    <Button onClick={this.handleSubmitTweet.bind(this)}>Tweet</Button>
                 </div>
                 <div>{tweetElements}</div>
             </div>

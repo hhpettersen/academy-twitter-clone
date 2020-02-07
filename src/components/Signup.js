@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Button, Container, Row, Col, Form, Card } from 'react-bootstrap';
 
 import { addUser } from '../services/users';
 import { createSession } from '../services/session'
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 class Signup extends React.Component {
     constructor(props) {
@@ -69,8 +70,10 @@ class Signup extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                    <h1>Sign up</h1>
-                    <Button onClick={this.handleBackClick.bind(this)}>Back to log in</Button>
+                    <IoIosArrowRoundBack className="backArrow" onClick={this.handleBackClick.bind(this)}/>
+                    <Card className="loginBox">
+                        <Card.Header>Sign Up</Card.Header>
+                        <Card.Body>
                         <Form>
                             <Form.Group controlId="formGroupName">
                                 <Form.Label>Name</Form.Label>
@@ -103,7 +106,9 @@ class Signup extends React.Component {
                             </Form.Group>
                                 {passwordError && <p>{passwordError}</p>}
                         </Form>
-                        <Button onClick={this.handleSubmit.bind(this)}>Sumbit</Button>
+                        <Button variant="danger" onClick={this.handleSubmit.bind(this)}>Sumbit</Button>
+                        </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
             </Container>

@@ -1,3 +1,55 @@
+/* 
+
+GUL
+#F8E9A1
+
+RØD
+#F76C6C
+
+LYSBLÅ
+#A8D0E6
+
+BLÅ
+#374785
+
+MØRKBLÅ
+#24305E
+
+*/
+
+.handleText {
+  font-size: 0.7rem;
+}
+
+.tweetBox {
+  border-radius: 10px;
+  width: auto;
+}
+
+.avatars img {
+  height: 100px;
+  margin: 10px;
+  border-radius: 50%;
+}
+
+.test {
+  background-image: url('/src/bg.jfif');
+  color:green;
+}
+
+.avatarSmallIcon {
+  filter: brightness(100%);
+  -o-transition:.5s;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+}
+
+.avatarSmallIcon:hover {
+  cursor: pointer;
+  filter: brightness(70%);
+}
+
 .App {
   text-align: center;
 }
@@ -35,41 +87,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.handleText {
-  font-size: 0.7rem;
-}
-
-body {
-  text-align: center;
-}
-
-.tweetBox {
-  border-radius: 10px;
-  width: auto;
-}
-
-.avatars img {
-  height: 100px;
-  margin: 10px;
-  border-radius: 50%;
-}
-
-.test {
-  background-image: url('/src/bg.jfif');
-  color:green;
-}
-
-.avatarSmallIcon {
-  filter: brightness(100%);
-  -o-transition:.5s;
-  -ms-transition:.5s;
-  -moz-transition:.5s;
-  -webkit-transition:.5s;
-}
-
-.avatarSmallIcon:hover {
-  cursor: pointer;
-  filter: brightness(70%);
 }

@@ -2,6 +2,8 @@ import React from 'react';
 import { formatDistance } from 'date-fns'
 import { Button, Card, Container, Row, Nav, Col, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { IoIosArrowRoundBack } from "react-icons/io";
+
 
 import { getTweetsByUserId, deleteTweetById } from '../services/tweets'
 import { getUserDataByHandle, getUserDataById } from '../services/users'
@@ -90,7 +92,7 @@ class MyProfile extends React.Component {
              })
 
             return (
-                <Card key={id} style={{ margin: '0.3rem' }}>
+                <Card className="tweetBox" key={id}>
                     <Card.Header>
                         <Image src={getAvatarUrl(this.state.avatar)} roundedCircle style={{height:"50px"}}/>
                         {name} (@{handle}) {date}
@@ -99,7 +101,7 @@ class MyProfile extends React.Component {
                         <Card.Text>
                             {message}
                         </Card.Text>
-                        <Button onClick={this.handleDeleteTweet.bind(this, {id})}>Delete tweet</Button>
+                        <Button variant="danger" style={{fontSize:"0.6rem"}} onClick={this.handleDeleteTweet.bind(this, {id})}>Delete tweet</Button>
                     </Card.Body>
                 </Card>
             );
@@ -114,30 +116,30 @@ class MyProfile extends React.Component {
                             <Nav.Link href="/">Home</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="myprofile" onClick={this.handleMyPage.bind(this, {handle})}>Profile</Nav.Link>
+                            <Nav.Link style={{backgroundColor:"#24305E"}} className="nav-link.active" onClick={this.handleMyPage.bind(this, {handle})}>Profile</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link eventKey="link-2">About</Nav.Link>
                         </Nav.Item>
                     </Nav>
 
-                    <Button onClick={this.handleBackClick.bind(this)}>Back to feed</Button>
+                    <IoIosArrowRoundBack className="backArrow" onClick={this.handleBackClick.bind(this)}/>
 
-                    <Image src={getAvatarUrl(avatar)} roundedCircle className="rounded mx-auto d-block" style={{ height:"100px" }}/>
-
-                    <Card className="text-center" style={{ width: 'auto', marginTop: "10px"}}>
+                    <Card className="text-center profileCard" style={{ width: 'auto', marginTop: "10px"}}>
+                        <Card.Header>
+                        <Card.Img variant="top" src={getAvatarUrl(avatar)} className="mx-auto d-block" style={{ height:"100px", width:"100px" }}/>
+                        </Card.Header>
                         <Card.Body>
-                            <Card.Title>{name} (@{handle})</Card.Title>
-                            <Card.Text>following: {follow.following} | followers: {follow.followers}</Card.Text>
+                            <Card.Title style={{fontSize:"1.5rem"}}>{name} (@{handle})</Card.Title>
+                            <Card.Text style={{fontSize:"0.7rem"}}>Following: {follow.following} |  Followers: {follow.followers}</Card.Text>
+                            <hr style={{backgroundColor:"white"}}></hr>
                             <Card.Text>{about}</Card.Text>
-                            <Button variant="primary" onClick={this.handleEditClick.bind(this)} style={{margin: "5px"}}>Edit profile</Button>
-                            <Button variant="primary" style={{margin: "5px"}}><Link to="/logout" style={{color: "white", textDecoration: "none"}}>Log out</Link></Button>
+                            <Button variant="danger" onClick={this.handleEditClick.bind(this)} style={{margin: "5px"}}>Edit profile</Button>
+                            <Button variant="danger" className="redButton" style={{margin: "5px"}}><Link to="/logout" style={{color: "white", textDecoration: "none"}}>Log out</Link></Button>
                         </Card.Body>
                     </Card>
                     
-
                     <div>
-                        <h1>My tweets</h1>
                         <div>{tweetElements}</div>
                     </div>
                     </Col>
