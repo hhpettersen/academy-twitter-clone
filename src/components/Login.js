@@ -27,13 +27,13 @@ class Login extends React.Component {
     }
 
     async handleLoginAttempt(event) {
-        event.preventDefault();
         const { history } = this.props;
         const { handle, password } = this.state.loginForm;
+        const lowerCaseHandle = handle.toLowerCase();
         try {
             this.setState({ isLoggingIn: true, error: null });
 
-            const { token, error } = await createSession({ handle, password });
+            const { token, error } = await createSession({ lowerCaseHandle, password });
 
             if (error) {
                 throw new Error(error);
@@ -51,6 +51,14 @@ class Login extends React.Component {
         }
     }
 
+    onEnterPress = (e) => {
+        if(e.keyCode === 13 && e.shiftKey === false) {
+          e.preventDefault();
+          this.handleLoginAttempt();
+        }
+    }
+      
+
     handleSignup() {
         const { history } = this.props;
         history.push('/signup');
@@ -67,7 +75,7 @@ class Login extends React.Component {
                         <Card.Header>Håkons Twitter-clone</Card.Header>
                         <Card.Body>
                         <Card.Title>Login</Card.Title>
-                        <Form>
+                        <Form ref={el => this.myFormRef = el} onKeyDown={this.onEnterPress}>
                             <Form.Group controlId="formGroupHandle">
                                 <Form.Label>Handle</Form.Label>
                                 <Form.Control 
@@ -87,12 +95,8 @@ class Login extends React.Component {
                         {error && <p>Unable to log in: {error.message}</p>}
                     </div>
                         </Form>
-                        <Button variant="danger" style={{marginRight:"5px"}} onClick={this.handleLoginAttempt.bind(this)}>Log in</Button>
+                        <Button type="submit" variant="danger" style={{marginRight:"5px"}} onClick={this.handleLoginAttempt.bind(this)}>Log in</Button>
                         <Button variant="danger" onClick={this.handleSignup.bind(this)}>Sign up</Button>
-                        {/* <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk
-                            of the card's content.
-                        </Card.Text> */}
                         </Card.Body>
                     </Card>
                     </Col>

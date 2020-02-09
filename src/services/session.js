@@ -1,12 +1,12 @@
 const API_URL = '/api';
 
-export function createSession({ handle, password }) {
+export function createSession({ lowerCaseHandle, password }) {
     return fetch(`${API_URL}/session`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ handle, password }),
+        body: JSON.stringify({ lowerCaseHandle, password }),
     })
     .then((res) => res.json());
 }

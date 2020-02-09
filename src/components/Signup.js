@@ -22,9 +22,9 @@ class Signup extends React.Component {
     }
 
     async handleSubmit(event) {
-        event.preventDefault();
         const { history } = this.props;
         const { handle, password, passwordTwo } = this.state.users;
+        const lowerCaseHandle = await handle.toLowerCase();
 
         if (password !== passwordTwo) {
             this.setState({ passwordError: "Passwords does not match, please try again."})
@@ -34,7 +34,7 @@ class Signup extends React.Component {
             if (newUser.status === 403) {
                 this.setState({ handleError: newUser.message})
             } else {
-                    const { token, error } = await createSession({ handle, password });
+                    const { token, error } = await createSession({ lowerCaseHandle, password });
         
                     if (error) {
                         throw new Error(error);
@@ -59,6 +59,13 @@ class Signup extends React.Component {
         });
     }
 
+    onEnterPress = (e) => {
+        if(e.keyCode === 13 && e.shiftKey === false) {
+          e.preventDefault();
+          this.handleSubmit();
+        }
+      }
+
     handleBackClick() {
         const { history } = this.props;
         history.push('/login')
@@ -74,7 +81,7 @@ class Signup extends React.Component {
                     <Card className="loginBox">
                         <Card.Header>Sign Up</Card.Header>
                         <Card.Body>
-                        <Form>
+                        <Form ref={el => this.myFormRef = el} onKeyDown={this.onEnterPress}>
                             <Form.Group controlId="formGroupName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control 
@@ -106,7 +113,7 @@ class Signup extends React.Component {
                             </Form.Group>
                                 {passwordError && <p>{passwordError}</p>}
                         </Form>
-                        <Button variant="danger" onClick={this.handleSubmit.bind(this)}>Sumbit</Button>
+                        <Button type="submit" variant="danger" onClick={this.handleSubmit.bind(this)}>Sumbit</Button>
                         </Card.Body>
                         </Card>
                     </Col>
