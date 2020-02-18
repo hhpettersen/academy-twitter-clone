@@ -86,7 +86,7 @@ class EditProfile extends React.Component {
                     <Col>
                         <Nav justify variant="tabs" defaultActiveKey="/myprofile">
                             <Nav.Item>
-                                <Nav.Link href="/home">Home</Nav.Link>
+                                <Nav.Link href="/">Home</Nav.Link>
                             </Nav.Item>
                             <Nav.Item style={{backgroundColor:"#24305E"}}>
                                 <Nav.Link onClick={this.handleMyPage.bind(this, {handle})}>Profile</Nav.Link>

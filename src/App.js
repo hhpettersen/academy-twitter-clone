@@ -17,6 +17,7 @@ import OthersProfile from './components/OthersProfile';
 // Switch sørger for at Route kun matcher på ett treff. 
 
 function App() {
+
   return (
     <BrowserRouter>
       <Switch>
