@@ -62,11 +62,11 @@ api.get('/session', authenticate, function (req, res) {
 
 api.post('/session', async function (req, res) {
   const {
-    handle,
+    lowerCaseHandle,
     password
   } = req.body;
 
-  const user = await getUserByHandle(handle);
+  const user = await getUserByHandle(lowerCaseHandle);
 
   const match = await decryptPassword(password, user.password);
 
@@ -203,7 +203,8 @@ api.post('/signup', async function (req, res) {
     password,
   } = req.body;
 
-  const handleCount = await validateHandle(handle);
+  const lowerCaseHandle = await handle.toLowerCase();
+  const handleCount = await validateHandle(lowerCaseHandle);
   const hashPassword = await cryptPassword(password);
 
   if (+handleCount.count) {
@@ -211,7 +212,7 @@ api.post('/signup', async function (req, res) {
   } else {
     const newUser = await createUser({
       name,
-      handle,
+      lowerCaseHandle,
       hashPassword,
     })
     res.send(newUser);
