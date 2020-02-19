@@ -40,8 +40,8 @@ class MyProfile extends React.Component {
     }
 
     async getUserData() {
-        await this.setState({
-            handle: this.props.match.params.handle
+        this.setState({
+            handle: await this.props.match.params.handle
         })
         const { handle } = this.state;
         const data = await getUserDataByHandle({ handle });

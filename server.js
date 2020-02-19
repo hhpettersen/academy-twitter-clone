@@ -37,10 +37,6 @@ const {
 
 const secret = process.env.SECRET;
 
-// ALTER TABLE users ALTER COLUMN following SET DEFAULT '{}';
-// ALTER TABLE users ADD image integer DEFAULT 1;
-
-
 //Defining middlewares: 
 
 app.use(cors());

@@ -53,10 +53,6 @@ class EditProfile extends React.Component {
         history.push(`/myprofile/${handle}`);
     }
 
-    logRadio(event) {
-        console.log(event.target.value)
-    }
-
     imageClick = async (id) => {
         await this.setState({ image: id })
         const { image } = await this.state;
